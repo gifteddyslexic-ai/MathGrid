@@ -2124,7 +2124,12 @@
             background: rgba(255,255,255,0.95); color: #2d3748; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.18);
         }
         .ck-pad button:active { transform: scale(0.97); }
-        .ck-pad .ck-del { font-size: 1.3rem; background: rgba(255,255,255,0.75); }
+        .ck-pad .ck-del { font-size: 1.05rem; background: rgba(255,255,255,0.75); display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .ck-pad .ck-del svg { flex: none; }
+        /* Quick taps on the same key (11, 22, 44…) must type twice, not zoom
+           the page, and a long press must not start selecting text. */
+        .ck-overlay, .ck-overlay button { touch-action: manipulation; }
+        .ck-pad, .ck-pad button, .ck-q { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent; }
         .ck-pad .ck-enter { font-size: 1.05rem; background: #21613c; color: white; }
         .ck-pad.locked button { opacity: 0.45; pointer-events: none; }
         .ck-show { margin-top: 14px; }
@@ -2590,7 +2595,7 @@
                     <button type="button" data-ck-key="1">1</button><button type="button" data-ck-key="2">2</button><button type="button" data-ck-key="3">3</button>
                     <button type="button" data-ck-key="4">4</button><button type="button" data-ck-key="5">5</button><button type="button" data-ck-key="6">6</button>
                     <button type="button" data-ck-key="7">7</button><button type="button" data-ck-key="8">8</button><button type="button" data-ck-key="9">9</button>
-                    <button type="button" data-ck-key="del" class="ck-del" aria-label="Delete">⌫</button><button type="button" data-ck-key="0">0</button><button type="button" data-ck-key="enter" class="ck-enter">Enter</button>
+                    <button type="button" data-ck-key="del" class="ck-del" aria-label="Delete the last number"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path d="M9 5h11a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H9l-6-7z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 9.5l5 5M17 9.5l-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>Delete</span></button><button type="button" data-ck-key="0">0</button><button type="button" data-ck-key="enter" class="ck-enter">Enter</button>
                 </div>
                 <button class="ck-big" type="button" id="ckNext" hidden>Next</button>
             </div>
@@ -9485,7 +9490,26 @@
                 if (MG.current()) save(data);
                 renderSetup();
             }));
-            els.pad.querySelectorAll('[data-ck-key]').forEach(b => b.addEventListener('click', () => press(b.dataset.ckKey)));
+            // Each tap counts when the finger lifts, so two quick taps on the
+            // same key always type it twice. Some older iPads zoom on a quick
+            // second tap even with touch-action set, so that second touch's
+            // default is cancelled here too (the tap has already been counted).
+            let lastPointerPress = 0, lastTouchEnd = 0;
+            els.pad.querySelectorAll('[data-ck-key]').forEach(b => {
+                b.addEventListener('pointerup', e => {
+                    if (e.pointerType === 'mouse' && e.button !== 0) return;
+                    lastPointerPress = Date.now();
+                    press(b.dataset.ckKey);
+                });
+                // keyboard Enter/Space on a focused key, or a click with no pointer events
+                b.addEventListener('click', () => { if (Date.now() - lastPointerPress > 600) press(b.dataset.ckKey); });
+            });
+            els.pad.addEventListener('touchend', e => {
+                const now = Date.now();
+                if (now - lastTouchEnd < 350) e.preventDefault();
+                lastTouchEnd = now;
+            }, { passive: false });
+            els.pad.addEventListener('dblclick', e => e.preventDefault());
             // Typing works too, as in the real check. Keys are kept away from
             // the grid underneath while this panel is open.
             document.addEventListener('keydown', e => {
