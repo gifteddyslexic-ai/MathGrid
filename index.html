@@ -2128,7 +2128,10 @@
         .ck-pad .ck-del svg { flex: none; }
         /* Quick taps on the same key (11, 22, 44…) must type twice, not zoom
            the page, and a long press must not start selecting text. */
-        .ck-overlay, .ck-overlay button { touch-action: manipulation; }
+        /* Whole app: no double-tap zoom anywhere (children quick-tap a lot),
+           while two-finger pinch zoom still works for anyone who needs it.
+           The grid's drag handles keep their own touch-action: none. */
+        html, body, .ck-overlay, .ck-overlay * { touch-action: manipulation; }
         .ck-pad, .ck-pad button, .ck-q { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent; }
         .ck-pad .ck-enter { font-size: 1.05rem; background: #21613c; color: white; }
         .ck-pad.locked button { opacity: 0.45; pointer-events: none; }
@@ -9504,12 +9507,19 @@
                 // keyboard Enter/Space on a focused key, or a click with no pointer events
                 b.addEventListener('click', () => { if (Date.now() - lastPointerPress > 600) press(b.dataset.ckKey); });
             });
-            els.pad.addEventListener('touchend', e => {
+            // Anywhere in the panel, a second tap soon after the first is not
+            // allowed to zoom. A key's tap has already been counted on
+            // pointerup; any other button gets its click directly.
+            overlay.addEventListener('touchend', e => {
                 const now = Date.now();
-                if (now - lastTouchEnd < 350) e.preventDefault();
+                if (e.touches.length === 0 && e.changedTouches.length === 1 && now - lastTouchEnd < 500) {
+                    e.preventDefault();
+                    const btn = e.target.closest && e.target.closest('button');
+                    if (btn && !btn.dataset.ckKey && !btn.disabled) btn.click();
+                }
                 lastTouchEnd = now;
             }, { passive: false });
-            els.pad.addEventListener('dblclick', e => e.preventDefault());
+            overlay.addEventListener('dblclick', e => e.preventDefault());
             // Typing works too, as in the real check. Keys are kept away from
             // the grid underneath while this panel is open.
             document.addEventListener('keydown', e => {
