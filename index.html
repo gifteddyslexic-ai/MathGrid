@@ -1,3 +1,4 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -2075,6 +2076,88 @@
         .ext-bar .count-toggle-pill { background: rgba(255,255,255,0.15); }
         .ext-bar .count-toggle-segment { font-size: 0.82rem; padding: 5px 11px; }
         .ext-bar .ext-label { color: rgba(255,255,255,0.75); font-weight: 700; font-size: 0.8rem; }
+
+        /* ---- Year 4 check practice ---- */
+        .ext-bar .ck-open { background: rgba(255,255,255,0.15); color: white; border-radius: 16px; }
+        .ext-bar .ck-open:hover { background: rgba(255,255,255,0.28); }
+        .ck-overlay { z-index: 1600; }
+        .ck-panel { max-width: 440px; }
+        .ck-panel h2 { margin-bottom: 6px; }
+        .ck-card {
+            background: rgba(255,255,255,0.95); color: #2d3748; border-radius: 16px;
+            padding: 16px; box-shadow: 0 5px 14px rgba(0,0,0,0.2); margin-bottom: 14px;
+        }
+        .ck-label { font-size: 0.8rem; font-weight: 700; color: #718096; margin-bottom: 8px; }
+        .ck-pill { background: #edf2f7; width: max-content; max-width: 100%; flex-wrap: wrap; }
+        .ck-pill .count-toggle-segment { color: #4a5568; }
+        .ck-pill .count-toggle-segment:hover { background: rgba(0,0,0,0.06); }
+        .ck-pill .count-toggle-segment[aria-pressed="true"] { background: var(--bg-accent); color: white; }
+        .ck-hint { font-size: 0.85rem; color: #4a5568; margin: 10px 0 0; line-height: 1.45; }
+        .ck-last { font-size: 0.85rem; color: #4a5568; margin-top: 12px; padding-top: 12px; border-top: 1px solid #edf2f7; }
+        .ck-last:empty { display: none; }
+        .ck-big {
+            display: block; width: 100%; border: none; border-radius: 14px; padding: 14px;
+            font: inherit; font-size: 1.15rem; font-weight: 800; cursor: pointer;
+            background: white; color: var(--bg-accent); box-shadow: 0 5px 14px rgba(0,0,0,0.2);
+        }
+        .ck-big:hover { filter: brightness(0.97); }
+        .ck-big.ck-quiet { background: rgba(255,255,255,0.15); color: white; box-shadow: none; }
+        .ck-big:focus-visible, .ck-pad button:focus-visible, .ck-missed button:focus-visible { outline: 3px solid white; outline-offset: 2px; }
+        .ck-pill .count-toggle-segment:focus-visible { outline: 3px solid var(--bg-accent); outline-offset: 2px; }
+        .ck-progress { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; font-weight: 700; color: rgba(255,255,255,0.9); font-size: 0.9rem; }
+        .ck-timer-track { flex: 1; height: 8px; border-radius: 4px; background: rgba(255,255,255,0.2); overflow: hidden; }
+        .ck-timer-track[hidden] { display: none; }
+        .ck-timer-fill { display: block; height: 100%; width: 100%; background: #f6c945; border-radius: 4px; }
+        .ck-question { text-align: center; padding: 18px 12px; }
+        .ck-q { font-size: 2.4rem; font-weight: 800; display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .ck-answer {
+            display: inline-flex; align-items: center; justify-content: center; min-width: 2.6em; height: 1.35em;
+            border: 3px solid #cbd5e0; border-radius: 10px; padding: 0 8px; color: #2d3748; background: #f7fafc;
+        }
+        .ck-answer.ok { border-color: #21613c; color: #21613c; background: rgba(72,187,120,0.18); }
+        .ck-answer.bad { border-color: #c53030; color: #c53030; background: rgba(229,62,62,0.12); }
+        .ck-feedback { min-height: 1.5em; margin-top: 8px; font-weight: 700; color: #4a5568; }
+        .ck-feedback.ok { color: #21613c; }
+        .ck-pad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
+        .ck-pad button {
+            border: none; border-radius: 14px; min-height: 58px; font: inherit; font-size: 1.6rem; font-weight: 800;
+            background: rgba(255,255,255,0.95); color: #2d3748; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.18);
+        }
+        .ck-pad button:active { transform: scale(0.97); }
+        .ck-pad .ck-del { font-size: 1.3rem; background: rgba(255,255,255,0.75); }
+        .ck-pad .ck-enter { font-size: 1.05rem; background: #21613c; color: white; }
+        .ck-pad.locked button { opacity: 0.45; pointer-events: none; }
+        .ck-show { margin-top: 14px; }
+        .ck-show[hidden] { display: none; }
+        .ck-eq { font-size: 1.35rem; font-weight: 800; margin-top: 10px; color: #2d3748; }
+        .ck-eq .g { color: #b7791f; }
+        .ck-why { font-size: 0.9rem; color: #4a5568; margin-top: 4px; }
+        .ck-array { display: inline-flex; flex-direction: column; gap: var(--ck-gap, 3px); padding: 8px; background: #574fa81a; border-radius: 10px; }
+        .ck-array .r { display: flex; gap: var(--ck-gap, 3px); }
+        .ck-array .r.after5 { margin-top: 4px; }
+        .ck-array .r.after10 { margin-top: 9px; }
+        .ck-ball {
+            width: var(--ck-ball, 18px); height: var(--ck-ball, 18px); border-radius: 50%; flex: none;
+            background: radial-gradient(circle at 32% 28%, #c3f5d7 0%, #8ce6b0 18%, #48bb78 55%, #21613c 100%);
+            box-shadow: inset -2px -2px 4px rgba(0,0,0,0.35), 0 1px 2px rgba(0,0,0,0.3);
+            opacity: 0; transform: scale(0.4); transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+        .ck-ball.after5 { margin-left: 4px; }
+        .ck-ball.after10 { margin-left: 9px; }
+        .ck-ball.extra { background: radial-gradient(circle at 32% 28%, #fff6c7 0%, #f6e27a 20%, #e0b62e 60%, #a37b0d 100%); }
+        .ck-array.on .ck-ball { opacity: 1; transform: none; }
+        .ck-result { text-align: center; }
+        .ck-score { font-size: 2.6rem; font-weight: 800; color: var(--bg-accent); }
+        .ck-score-sub { color: #4a5568; margin: 2px 0 14px; }
+        .ck-missed { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+        .ck-missed button {
+            border: 2px solid #feb2b2; background: #fff5f5; color: #c53030; border-radius: 12px;
+            padding: 6px 12px; font: inherit; font-weight: 800; cursor: pointer;
+        }
+        .ck-missed button[aria-pressed="true"] { background: #c53030; color: white; border-color: #c53030; }
+        .ck-done-buttons { display: grid; gap: 10px; }
+        @media (max-width: 380px) { .ck-q { font-size: 2rem; } .ck-pad button { min-height: 52px; } }
+        @media (prefers-reduced-motion: reduce) { .ck-ball { transition: none; } }
         #mulDivApp.ext-mode .math-grid .grid-divider,
         #mulDivApp.ext-mode .math-grid .counted-highlight,
         #mulDivApp.ext-mode .math-grid .axis-highlight,
@@ -2130,6 +2213,7 @@
                 <button class="count-toggle-segment" type="button" data-ext="1" aria-pressed="false">11 ×</button>
                 <button class="count-toggle-segment" type="button" data-ext="2" aria-pressed="false">12 ×</button>
             </div>
+            <button class="count-toggle-segment ck-open" type="button" id="checkOpenButton" title="Practise for the Year 4 multiplication tables check" aria-label="Year 4 check practice">Y4 check</button>
         </div>
         <div class="math-grid-frame">
             <div class="math-grid" id="mathGrid">
@@ -2466,6 +2550,66 @@
                 <input type="file" id="restoreFile" accept="application/json,.json" hidden>
             </div>
             <p class="player-note" id="playerNote">Progress is saved in this browser on this device only.</p>
+        </div>
+    </div>
+
+    <!-- Year 4 check practice: 25 typed times tables questions, like the
+         statutory multiplication tables check. Wrong answers are shown as an
+         array of balls before moving on. -->
+    <div class="player-overlay ck-overlay" id="checkOverlay" role="dialog" aria-modal="true" aria-labelledby="ckTitle">
+        <div class="player-panel ck-panel">
+            <button class="player-close" id="ckClose" type="button" aria-label="Close check practice">✕</button>
+            <h2 id="ckTitle">Check practice</h2>
+
+            <div id="ckSetup">
+                <p class="player-sub">25 times tables questions, like the Year 4 multiplication tables check. Type each answer.</p>
+                <div class="ck-card">
+                    <div class="ck-label" id="ckTimerLabel">Timer</div>
+                    <div class="count-toggle-pill ck-pill" role="group" aria-labelledby="ckTimerLabel">
+                        <button class="count-toggle-segment" type="button" data-ck-timer="0" aria-pressed="true">Off</button>
+                        <button class="count-toggle-segment" type="button" data-ck-timer="12" aria-pressed="false">12 seconds</button>
+                        <button class="count-toggle-segment" type="button" data-ck-timer="6" aria-pressed="false">6 seconds</button>
+                    </div>
+                    <p class="ck-hint" id="ckTimerHint"></p>
+                    <div class="ck-last" id="ckLast"></div>
+                </div>
+                <button class="ck-big" type="button" id="ckStart">Start</button>
+            </div>
+
+            <div id="ckPlay" hidden>
+                <div class="ck-progress">
+                    <span id="ckCount">Question 1 of 25</span>
+                    <span class="ck-timer-track" id="ckTimerTrack"><span class="ck-timer-fill" id="ckTimerFill"></span></span>
+                </div>
+                <div class="ck-card ck-question">
+                    <div class="ck-q" aria-live="polite"><span id="ckQText"></span> <span class="ck-answer" id="ckAns" aria-label="Your answer"></span></div>
+                    <div class="ck-feedback" id="ckFeedback" aria-live="polite"></div>
+                    <div class="ck-show" id="ckShow" hidden></div>
+                </div>
+                <div class="ck-pad" id="ckPad" role="group" aria-label="Number pad">
+                    <button type="button" data-ck-key="1">1</button><button type="button" data-ck-key="2">2</button><button type="button" data-ck-key="3">3</button>
+                    <button type="button" data-ck-key="4">4</button><button type="button" data-ck-key="5">5</button><button type="button" data-ck-key="6">6</button>
+                    <button type="button" data-ck-key="7">7</button><button type="button" data-ck-key="8">8</button><button type="button" data-ck-key="9">9</button>
+                    <button type="button" data-ck-key="del" class="ck-del" aria-label="Delete">⌫</button><button type="button" data-ck-key="0">0</button><button type="button" data-ck-key="enter" class="ck-enter">Enter</button>
+                </div>
+                <button class="ck-big" type="button" id="ckNext" hidden>Next</button>
+            </div>
+
+            <div id="ckDone" hidden>
+                <div class="ck-card ck-result">
+                    <div class="ck-score" id="ckScore"></div>
+                    <div class="ck-score-sub" id="ckScoreSub"></div>
+                    <div id="ckMissedWrap">
+                        <div class="ck-label">Tap one to see it on the grid</div>
+                        <div class="ck-missed" id="ckMissed"></div>
+                        <div class="ck-show" id="ckDoneShow" hidden></div>
+                    </div>
+                </div>
+                <div class="ck-done-buttons">
+                    <button class="ck-big" type="button" id="ckRetryMissed">Practise these again</button>
+                    <button class="ck-big ck-quiet" type="button" id="ckAgain">New round</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -8346,16 +8490,52 @@
             }, true);
 
             // Backup & restore
-            document.getElementById('backupButton').addEventListener('click', () => {
-                const data = JSON.stringify(MG.exportAll(), null, 1);
+            // In the published version the page runs in a sandbox that blocks
+            // ordinary download links, so the backup goes through claude.ai's
+            // save prompt. The plain link is kept as a fallback for when the
+            // file is opened on its own (e.g. a copy saved to a computer).
+            let downloadsApi;   // undefined = not asked yet; null = not available
+            const getDownloads = async () => {
+                if (downloadsApi !== undefined) return downloadsApi;
+                try {
+                    downloadsApi = (window.claude && typeof window.claude.use === 'function')
+                        ? await window.claude.use('downloads') : null;
+                } catch (e) { downloadsApi = null; }
+                return downloadsApi;
+            };
+            getDownloads();   // start resolving early so the click is quick
+            const linkDownload = (filename, data) => {
                 const blob = new Blob([data], { type: 'application/json' });
                 const a = document.createElement('a');
                 a.href = URL.createObjectURL(blob);
-                a.download = `mathgrid-players-${new Date().toISOString().slice(0, 10)}.json`;
+                a.download = filename;
                 document.body.appendChild(a);
                 a.click();
                 setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
-                note.textContent = 'Backup file saved. Keep it somewhere safe.';
+            };
+            const backupBtn = document.getElementById('backupButton');
+            backupBtn.addEventListener('click', async () => {
+                const data = JSON.stringify(MG.exportAll(), null, 1);
+                const filename = `mathgrid-players-${new Date().toISOString().slice(0, 10)}.json`;
+                const dl = await getDownloads();
+                if (!dl) {
+                    linkDownload(filename, data);
+                    note.textContent = 'Backup file saved. Keep it somewhere safe.';
+                    return;
+                }
+                backupBtn.disabled = true;
+                note.textContent = 'Choose where to save the backup…';
+                try {
+                    await dl.save({ filename, data });
+                    note.textContent = 'Backup file saved. Keep it somewhere safe.';
+                } catch (err) {
+                    const code = err && err.code;
+                    if (code === 'declined') note.textContent = 'Backup not saved.';
+                    else if (code === 'rate_limited') note.textContent = 'A save is already waiting. Finish that one first, then try again.';
+                    else { linkDownload(filename, data); note.textContent = 'Backup file saved. Keep it somewhere safe.'; }
+                } finally {
+                    backupBtn.disabled = false;
+                }
             });
             const fileIn = document.getElementById('restoreFile');
             document.getElementById('restoreButton').addEventListener('click', () => fileIn.click());
@@ -8422,7 +8602,7 @@
             };
             const factText = e => {
                 if (e.q) return e.q;
-                if (e.m === 'mul' || e.m === 'ext') return `${e.a} × ${e.b}`;
+                if (e.m === 'mul' || e.m === 'ext' || e.m === 'check') return `${e.a} × ${e.b}`;
                 if (e.m === 'div') return e.k === 'remainder' ? `${e.a} ÷ ${e.b}` : `${e.a * e.b} ÷ ${e.b}`;
                 return `${e.a} ${e.m === 'add' ? '+' : '−'} ${e.b}`;
             };
@@ -8588,6 +8768,16 @@
                     const expertTxt = mastered >= 100 || expertN ? ` <strong>Expert level</strong> (margin numbers hidden): ${expertN} of 100 facts secure.` : '';
                     h += `<div class="rp-section"><h4>Times tables</h4><p class="rp-hint">${mastered} of 100 facts mastered (3 right in a row).${expertTxt} Hover a ball to see how that fact went.</p>
                             <div class="rp-heat-wrap"><div>${heatMap(r, mastery)}</div><div class="rp-bars">${tb || tbd || r.rem[1] || r.ext11[1] || r.ext12[1] ? '' : '<div class="rp-empty">No times tables questions in this period.</div>'}${tb}${tbd ? '<div style="height:6px"></div>' + tbd : ''}${r.rem[1] ? barRow('Remainders', r.rem[0], r.rem[1]) : ''}${r.ext11[1] || r.ext12[1] ? '<div style="height:6px"></div>' + barRow('11 ×', r.ext11[0], r.ext11[1]) + barRow('12 ×', r.ext12[0], r.ext12[1]) : ''}</div></div></div>`;
+                    // Year 4 check practice: one line per full 25-question round
+                    let ckRounds = [];
+                    try { const d = JSON.parse(MG.getFor(pr.id, 'mathgrid_check') || 'null'); ckRounds = d && Array.isArray(d.rounds) ? d.rounds : []; } catch (e) { ckRounds = []; }
+                    const ckSince = period ? Date.now() - period * 86400000 : 0;
+                    const ckFull = ckRounds.filter(x => x && x.kind === 'full' && x.t >= ckSince);
+                    if (ckFull.length) {
+                        const best = ckFull.reduce((m, x) => Math.max(m, x.score), 0);
+                        const rows = ckFull.slice(-6).reverse().map(x => `<li><span class="f">${x.score} out of ${x.n}</span><span class="d">${new Date(x.t).toLocaleDateString(undefined, { day: 'numeric', month: 'short' })}, ${x.timer ? `${x.timer} s timer` : 'no timer'}</span></li>`).join('');
+                        h += `<div class="rp-section"><h4>Year 4 check practice</h4><p class="rp-hint">${ckFull.length} ${ckFull.length === 1 ? 'round' : 'rounds'} of 25 typed questions. Best score ${best} out of 25. The real check uses a 6-second timer.</p><ul class="rp-list">${rows}</ul></div>`;
+                    }
                     const cc = r.count;
                     if (cc.howmany[1] || cc.next[1]) {
                         h += `<div class="rp-section"><h4>Counting</h4><p class="rp-hint">Counting quiz: reading how many balls, and continuing a count.</p><div class="rp-bars">${barRow('How many?', cc.howmany[0], cc.howmany[1])}${barRow('What next?', cc.next[0], cc.next[1])}${cc.rows[1] ? barRow('Rows of 10', cc.rows[0], cc.rows[1]) : ''}${cc.cols[1] ? barRow('Columns of 10', cc.cols[0], cc.cols[1]) : ''}</div></div>`;
@@ -9006,6 +9196,315 @@
             sync();
         }
 
+        // ---- Year 4 check practice ----
+        // Mirrors the statutory multiplication tables check: 25 typed
+        // questions, tables 2 to 12, more of the 6, 7, 8, 9 and 12 tables,
+        // multiplication only, and never a fact and its reverse in the same
+        // round. Unlike the real check, a wrong answer stops to show the fact
+        // as an array of balls, and the timer can be switched off.
+        function setupCheckPractice(app) {
+            const $ = id => document.getElementById(id);
+            const overlay = $('checkOverlay');
+            const openBtn = $('checkOpenButton');
+            if (!overlay || !openBtn) return;
+            const KEY = 'mathgrid_check', ROUND = 25, HEAVY = new Set([6, 7, 8, 9, 12]);
+            const HINTS = {
+                0: 'No time limit. Take as long as you need.',
+                12: '12 seconds for each question. A good step towards the real check.',
+                6: '6 seconds for each question, the same as the real check.'
+            };
+            const els = {
+                setup: $('ckSetup'), play: $('ckPlay'), done: $('ckDone'),
+                hint: $('ckTimerHint'), last: $('ckLast'), start: $('ckStart'),
+                count: $('ckCount'), track: $('ckTimerTrack'), fill: $('ckTimerFill'),
+                q: $('ckQText'), ans: $('ckAns'), fb: $('ckFeedback'), show: $('ckShow'),
+                pad: $('ckPad'), next: $('ckNext'),
+                score: $('ckScore'), scoreSub: $('ckScoreSub'), missedWrap: $('ckMissedWrap'),
+                missed: $('ckMissed'), doneShow: $('ckDoneShow'), retry: $('ckRetryMissed'), again: $('ckAgain')
+            };
+            const reduceMotion = () => window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            const load = () => {
+                let d = null;
+                try { d = JSON.parse(MG.get(KEY) || 'null'); } catch (e) { d = null; }
+                if (!d || typeof d !== 'object') d = {};
+                if (![0, 6, 12].includes(d.timer)) d.timer = 0;
+                if (!Array.isArray(d.rounds)) d.rounds = [];
+                return d;
+            };
+            const save = d => { try { MG.set(KEY, JSON.stringify(d)); } catch (e) { /* not saved */ } };
+
+            let data = load();
+            let timer = data.timer;
+            let queue = [], idx = 0, typed = '', results = [], kind = 'full';
+            let phase = 'idle', qStart = 0, timeout = null, pauseT = null;
+
+            // ---- questions ----
+            const shuffle = arr => { for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [arr[i], arr[j]] = [arr[j], arr[i]]; } return arr; };
+            const makeRound = () => {
+                const pool = [];
+                for (let x = 2; x <= 12; x++) for (let y = x; y <= 12; y++) pool.push({ x, y, w: (HEAVY.has(x) ? 2 : 1) * (HEAVY.has(y) ? 2 : 1) });
+                const picked = [];
+                while (picked.length < ROUND && pool.length) {
+                    let r = Math.random() * pool.reduce((s, p) => s + p.w, 0), i = 0;
+                    while (r >= pool[i].w && i < pool.length - 1) { r -= pool[i].w; i++; }
+                    const p = pool.splice(i, 1)[0];
+                    picked.push(Math.random() < 0.5 ? { a: p.x, b: p.y } : { a: p.y, b: p.x });
+                }
+                return picked;
+            };
+
+            // ---- the array of balls for one fact ----
+            // a rows of b. Past 10, the extra rows (or columns) are gold, the
+            // same "10 and a bit" picture as the 11 and 12 times tables mode.
+            const showFact = (box, a, b) => {
+                const p = a * b, rowsSplit = a > 10, colsSplit = !rowsSplit && b > 10;
+                box.hidden = false;
+                const avail = Math.min(box.clientWidth || (overlay.clientWidth - 64), 380) - 20;
+                const gap = 3;
+                const extraW = (b > 5 ? 4 : 0) + (b > 10 ? 9 : 0), extraH = (a > 5 ? 4 : 0) + (a > 10 ? 9 : 0);
+                const ball = Math.max(8, Math.min(24, Math.floor((avail - (b - 1) * gap - extraW) / b), Math.floor((260 - (a - 1) * gap - extraH) / a)));
+                let h = `<div class="ck-array" style="--ck-ball:${ball}px;--ck-gap:${gap}px" role="img" aria-label="${a} rows of ${b} balls, ${p} altogether">`;
+                for (let r = 1; r <= a; r++) {
+                    h += `<div class="r${r === 6 ? ' after5' : r === 11 ? ' after10' : ''}">`;
+                    for (let c = 1; c <= b; c++) {
+                        const cls = ['ck-ball'];
+                        if (c === 6) cls.push('after5'); else if (c === 11) cls.push('after10');
+                        if ((rowsSplit && r > 10) || (colsSplit && c > 10)) cls.push('extra');
+                        h += `<span class="${cls.join(' ')}" style="transition-delay:${reduceMotion() ? 0 : (r - 1) * 55}ms"></span>`;
+                    }
+                    h += '</div>';
+                }
+                h += '</div>';
+                if (rowsSplit) {
+                    h += `<div class="ck-eq">${a} × ${b} = ${10 * b} + <span class="g">${(a - 10) * b}</span> = ${p}</div>`;
+                    h += `<div class="ck-why">10 rows of ${b}, and ${a - 10} more ${a - 10 === 1 ? 'row' : 'rows'} of ${b}.</div>`;
+                } else if (colsSplit) {
+                    h += `<div class="ck-eq">${a} × ${b} = ${a * 10} + <span class="g">${a * (b - 10)}</span> = ${p}</div>`;
+                    h += `<div class="ck-why">${a} ${a === 1 ? 'row' : 'rows'} of 10, and ${a} ${a === 1 ? 'row' : 'rows'} of ${b - 10} more.</div>`;
+                } else {
+                    h += `<div class="ck-eq">${a} × ${b} = ${p}</div>`;
+                    h += `<div class="ck-why">${a} ${a === 1 ? 'row' : 'rows'} of ${b}.</div>`;
+                }
+                box.innerHTML = h;
+                const arr = box.querySelector('.ck-array');
+                requestAnimationFrame(() => requestAnimationFrame(() => arr.classList.add('on')));
+            };
+
+            // ---- screens ----
+            const screen = name => {
+                els.setup.hidden = name !== 'setup';
+                els.play.hidden = name !== 'play';
+                els.done.hidden = name !== 'done';
+            };
+            const fmtDate = t => new Date(t).toLocaleDateString(undefined, { day: 'numeric', month: 'short' });
+            const timerWord = s => s ? `${s}-second timer` : 'no timer';
+            const renderSetup = () => {
+                document.querySelectorAll('[data-ck-timer]').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.ckTimer === timer)));
+                els.hint.textContent = HINTS[timer];
+                const full = data.rounds.filter(r => r.kind === 'full');
+                if (!MG.current()) els.last.textContent = 'Choose a player when you start, so their scores are saved.';
+                else if (!full.length) els.last.textContent = '';
+                else {
+                    const l = full[full.length - 1];
+                    const best = full.reduce((m, r) => Math.max(m, r.score), 0);
+                    els.last.textContent = `Last round: ${l.score} out of ${l.n}, ${timerWord(l.timer)}, ${fmtDate(l.t)}. Best: ${best} out of ${ROUND}.`;
+                }
+                screen('setup');
+            };
+
+            const stopTimer = () => {
+                clearTimeout(timeout); timeout = null;
+                const w = els.fill.getBoundingClientRect().width, tw = els.track.getBoundingClientRect().width;
+                els.fill.style.transition = 'none';
+                els.fill.style.width = tw ? `${Math.round(w / tw * 100)}%` : '0%';
+            };
+            const startTimer = () => {
+                els.track.hidden = !timer;
+                if (!timer) return;
+                els.fill.style.transition = 'none';
+                els.fill.style.width = '100%';
+                void els.fill.offsetWidth;
+                els.fill.style.transition = `width ${timer}s linear`;
+                els.fill.style.width = '0%';
+                timeout = setTimeout(() => submit(true), timer * 1000);
+            };
+
+            const renderAnswer = () => { els.ans.textContent = typed || ' '; };
+
+            const ask = () => {
+                const f = queue[idx];
+                phase = 'q';
+                typed = '';
+                els.count.textContent = `Question ${idx + 1} of ${queue.length}`;
+                els.q.textContent = `${f.a} × ${f.b} =`;
+                els.ans.className = 'ck-answer';
+                renderAnswer();
+                els.fb.textContent = '';
+                els.fb.className = 'ck-feedback';
+                els.show.hidden = true;
+                els.show.innerHTML = '';
+                els.next.hidden = true;
+                els.pad.classList.remove('locked');
+                els.pad.hidden = false;
+                app.speak(`${f.a} times ${f.b}`);
+                qStart = Date.now();
+                startTimer();
+            };
+
+            const submit = (timedOut) => {
+                if (phase !== 'q') return;
+                if (!timedOut && typed === '') return;
+                stopTimer();
+                const f = queue[idx], p = f.a * f.b;
+                const ok = typed !== '' && +typed === p;
+                results.push({ a: f.a, b: f.b, ok });
+                MG.log({ t: Date.now(), m: 'check', k: timer ? `timer${timer}` : 'untimed', a: f.a, b: f.b, ok: ok ? 1 : 0, ms: Date.now() - qStart, ...(timedOut && !ok ? { to: 1 } : {}) });
+                els.pad.classList.add('locked');
+                if (ok) {
+                    phase = 'pause';
+                    els.ans.classList.add('ok');
+                    els.fb.textContent = 'Correct!';
+                    els.fb.className = 'ck-feedback ok';
+                    app.speak('Correct!');
+                    pauseT = setTimeout(advance, timer ? 1200 : 900);
+                    return;
+                }
+                phase = 'show';
+                els.ans.classList.add('bad');
+                if (typed === '') els.ans.textContent = '–';
+                els.fb.textContent = `${timedOut && typed === '' ? "Time's up." : 'Not quite.'} ${f.a} × ${f.b} = ${p}`;
+                app.speak(`${f.a} times ${f.b} is ${p}`);
+                showFact(els.show, f.a, f.b);
+                els.pad.hidden = true;
+                els.next.hidden = false;
+                els.next.textContent = idx + 1 < queue.length ? 'Next' : 'See my score';
+                els.next.focus();
+            };
+
+            const advance = () => {
+                clearTimeout(pauseT); pauseT = null;
+                if (phase !== 'pause' && phase !== 'show') return;
+                idx++;
+                if (idx < queue.length) ask(); else finish();
+            };
+
+            const finish = () => {
+                phase = 'done';
+                const n = results.length, score = results.filter(r => r.ok).length;
+                const missed = [];
+                results.forEach(r => { if (!r.ok && !missed.some(m => m.a === r.a && m.b === r.b)) missed.push({ a: r.a, b: r.b }); });
+                if (MG.current()) {
+                    data.rounds.push({ t: Date.now(), kind, n, score, timer, missed: missed.map(m => `${m.a}x${m.b}`) });
+                    if (data.rounds.length > 40) data.rounds = data.rounds.slice(-40);
+                    save(data);
+                }
+                els.score.textContent = `${score} out of ${n}`;
+                if (kind !== 'full') els.scoreSub.textContent = score === n ? 'All of them right this time.' : 'Practice round of the ones you missed.';
+                else if (score === n) els.scoreSub.textContent = 'Full marks!';
+                else if (score >= 20) els.scoreSub.textContent = `Great work, with ${timerWord(timer)}.`;
+                else els.scoreSub.textContent = `Every round helps. Here are the ones to look at.`;
+                els.missedWrap.hidden = !missed.length;
+                els.retry.hidden = !missed.length;
+                els.doneShow.hidden = true;
+                els.missed.innerHTML = '';
+                missed.forEach(m => {
+                    const b = document.createElement('button');
+                    b.type = 'button';
+                    b.textContent = `${m.a} × ${m.b}`;
+                    b.setAttribute('aria-pressed', 'false');
+                    b.addEventListener('click', () => {
+                        els.missed.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+                        showFact(els.doneShow, m.a, m.b);
+                        app.speak(`${m.a} times ${m.b} is ${m.a * m.b}`);
+                    });
+                    els.missed.appendChild(b);
+                });
+                els.retry.onclick = () => begin(shuffle(missed.slice()), 'missed');
+                app.speak(`${score} out of ${n}`);
+                screen('done');
+                (missed.length ? els.retry : els.again).focus();
+            };
+
+            const begin = (facts, k) => {
+                const go = () => {
+                    data = load();
+                    queue = facts || makeRound();
+                    kind = k || 'full';
+                    idx = 0; results = [];
+                    overlay.classList.add('active');
+                    screen('play');
+                    ask();
+                };
+                if (!MG.current() && window.mgOpenPlayers) {
+                    // the player picker sits underneath this panel, so step aside for it
+                    overlay.classList.remove('active');
+                    window.mgOpenPlayers(go);
+                    return;
+                }
+                go();
+            };
+
+            const open = () => {
+                if (app.isCounting) app.stopCounting();
+                if (app.tableQuizActive) app.stopTableQuizSession();
+                if (window.mgExt && window.mgExt.quiz) window.mgExt.stopQuiz();
+                if (app.speechSupported) window.speechSynthesis.cancel();
+                data = load();
+                timer = data.timer;
+                phase = 'idle';
+                renderSetup();
+                overlay.classList.add('active');
+                els.start.focus();
+            };
+            const close = () => {
+                clearTimeout(timeout); clearTimeout(pauseT); timeout = pauseT = null;
+                phase = 'idle';
+                overlay.classList.remove('active');
+                if (app.speechSupported) window.speechSynthesis.cancel();
+                openBtn.focus();
+            };
+
+            const press = k => {
+                if (phase !== 'q') return;
+                if (k === 'enter') { submit(false); return; }
+                if (k === 'del') typed = typed.slice(0, -1);
+                else if (/^\d$/.test(k) && typed.length < 3) typed = (typed === '0' ? '' : typed) + k;
+                renderAnswer();
+            };
+
+            openBtn.addEventListener('click', e => { e.stopPropagation(); open(); });
+            $('ckClose').addEventListener('click', close);
+            els.start.addEventListener('click', () => begin(null, 'full'));
+            els.again.addEventListener('click', () => { renderSetup(); els.start.focus(); });
+            els.next.addEventListener('click', advance);
+            document.querySelectorAll('[data-ck-timer]').forEach(b => b.addEventListener('click', () => {
+                timer = +b.dataset.ckTimer;
+                data = load();
+                data.timer = timer;
+                if (MG.current()) save(data);
+                renderSetup();
+            }));
+            els.pad.querySelectorAll('[data-ck-key]').forEach(b => b.addEventListener('click', () => press(b.dataset.ckKey)));
+            // Typing works too, as in the real check. Keys are kept away from
+            // the grid underneath while this panel is open.
+            document.addEventListener('keydown', e => {
+                if (!overlay.classList.contains('active')) return;
+                if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); close(); return; }
+                if (phase === 'q') {
+                    let k = null;
+                    if (/^\d$/.test(e.key)) k = e.key;
+                    else if (e.key === 'Backspace' || e.key === 'Delete') k = 'del';
+                    else if (e.key === 'Enter') k = 'enter';
+                    if (k) { e.preventDefault(); e.stopPropagation(); press(k); }
+                } else if (phase === 'show' && (e.key === 'Enter' || e.key === ' ')) {
+                    e.preventDefault(); e.stopPropagation(); advance();
+                }
+            }, true);
+
+            window.mgCheck = { open, close };
+        }
+
         function startMathGrid() {
             if (window.mathGridStarted !== undefined) return;
             window.mathGridStarted = false;
@@ -9020,6 +9519,7 @@
                 setupCornerQuiz(app, addSub);
                 setupExpert(app);
                 setupGridFooters(app);
+                setupCheckPractice(app);
                 // Open on Count, the first step in the learning order.
                 const countSeg = document.querySelector('.op-seg[data-op="count"]');
                 if (countSeg) countSeg.click();
@@ -9045,3 +9545,4 @@
     </script>
 </body>
 </html>
+</body></html>
