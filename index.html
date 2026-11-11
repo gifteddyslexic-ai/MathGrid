@@ -1549,12 +1549,60 @@
         }
 
         .grid-cell.as-cell.as-num { font-weight: 800; }
+        /* Choosing a number by sliding: balls 1..n ringed, and a bubble above the finger */
+        #asGrid { touch-action: none; }
+        .grid-cell.as-cell.as-prev { box-shadow: 0 0 0 3px #f6c945, inset -5px -5px 10px rgba(0,0,0,0.35), inset 5px 5px 10px rgba(255,255,255,0.6); }
+        .grid-cell.as-cell.as-prev-bad { box-shadow: 0 0 0 3px #e53e3e, inset -5px -5px 10px rgba(0,0,0,0.35); }
+        .as-bubble {
+            position: fixed; z-index: 1000; pointer-events: none; transform: translate(-50%, calc(-100% - 34px));
+            min-width: 2.2em; padding: 4px 10px; border-radius: 14px; text-align: center;
+            background: white; color: #2d3748; font: 800 1.6rem/1.2 inherit; font-family: inherit;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.35); border: 3px solid #f6c945;
+        }
+        .as-bubble.bad { border-color: #e53e3e; color: #c53030; }
+        .as-bubble[hidden] { display: none; }
+        #addSubApp .equation-part.as-live { outline: 3px solid #f6c945; border-radius: 8px; }
+        /* Nearest ten: a crossed-off ball given back */
+        .grid-cell.as-cell.as-back { box-shadow: 0 0 0 3px #f6c945, inset -5px -5px 10px rgba(0,0,0,0.45), inset 5px 5px 10px rgba(255,255,255,0.6); }
+        .grid-cell.as-cell.as-b.as-gone { background: radial-gradient(circle at 32% 28%, #fff0f0 0%, #f5c4c4 40%, #e59a9a 100%); }
+        #addSubApp .as-next {
+            border: none; border-radius: 12px; margin-left: 10px; padding: 4px 14px; vertical-align: middle;
+            background: var(--bg-accent); color: white; font: inherit; font-size: 0.95rem; font-weight: 800; cursor: pointer;
+            animation: lnNextBlink 1.2s steps(1, end) 1s infinite;
+        }
+        #addSubApp .as-steps .as-round { font-style: italic; }
+        .as-why { color: #fefcbf; font-weight: 600; text-align: center; margin: 2px 0 4px; }
+        .as-why b { color: #f6c945; }
+        #addSubApp .grid-footer .as-modes { flex-wrap: wrap; justify-content: center; }
+        #asJumpsRow { flex-wrap: wrap; justify-content: center; }
+        .as-jumps-wrap { display: flex; justify-content: center; margin: 2px auto 10px; }
+        .as-jumps-wrap #asJumpsRow { display: flex; align-items: center; gap: 8px; }
+        .as-jumps-wrap #asJumpsRow.as-hidden { display: none !important; }
+        #asJumpsRow .count-toggle-pill { flex-wrap: wrap; justify-content: center; }
+        #asJumpsRow .count-toggle-segment { white-space: nowrap; }
+        /* Tens and ones: the equation box shows the step being counted */
+        #addSubApp .as-stepeq { display: none; }
+        #addSubApp .equation.as-stepmode > *:not(#asStepEq):not(.as-next) { display: none; }
+        #addSubApp .equation.as-stepmode #asStepEq { display: inline-flex; align-items: center; gap: 0.15em; }
+        #addSubApp .as-qa { color: #0023a3; } #addSubApp .as-qb { color: #8f0000; } #addSubApp .as-qs { color: #1e8c4a; }
+        #addSubApp .as-steps .as-total { color: #9ae6b4; font-weight: 800; }
+        /* Tens and ones: a frame round each column of ten */
+        .as-tframe { position: absolute; border: 2.5px solid rgba(255,255,255,0.85); border-radius: 14px; pointer-events: none; z-index: 3; box-sizing: border-box; }
+        .as-tframe.new { border-color: #f6c945; animation: countPulse 0.6s ease 2; }
+        .as-tframe.broken { border-style: dashed; border-color: #f6c945; }
+        .grid-cell.as-cell.as-dim { opacity: 0.3; }
+        /* Find the difference: the gap still to count, and the gap once counted */
+        .grid-cell.as-cell.as-gap { background: rgba(255,255,255,0.22); box-shadow: inset 0 0 0 2px rgba(255,255,255,0.7); color: white; }
+        .grid-cell.as-cell.as-green {
+            background: radial-gradient(circle at 32% 28%, #c3f5d7 0%, #8ce6b0 18%, #48bb78 55%, #21613c 100%); color: white;
+            box-shadow: inset -5px -5px 10px rgba(0,0,0,0.45), inset 5px 5px 10px rgba(255,255,255,0.75), 0 4px 7px rgba(0,0,0,0.35);
+        }
 
         .as-hidden { display: none !important; }
 
         #asA.quiz-reveal-correct, #asB.quiz-reveal-correct, #asR.quiz-reveal-correct { color: #21613c !important; }
         .as-level { font-size: 0.8rem; color: rgba(255,255,255,0.7); font-weight: 600; }
-        [data-jumps][aria-pressed="true"] { background: rgba(255,255,255,0.95); color: var(--bg-accent); }
+        [data-jumps][aria-pressed="true"], [data-subway][aria-pressed="true"] { background: rgba(255,255,255,0.95); color: var(--bg-accent); }
         #asA { color: #0023a3; }
         #asB { color: #8f0000; }
         #asR { color: #21613c; }
@@ -1976,6 +2024,11 @@
         .grid-cell.header-cell.ct-tens { justify-content: flex-start; padding-left: 1px; letter-spacing: -0.03em; overflow: visible; }
         @media (max-width: 420px) { .grid-cell.header-cell.ct-tens { font-size: 0.72rem; } }
         .ln-board .grid-divider { transition: left 0.2s ease, top 0.2s ease; touch-action: none; }
+        /* Counting in 1s, 2s and 5s: the stepped line that follows the count
+           (same blue and thickness as the row divider). */
+        .ct-stair { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 5; display: none; }
+        .ct-stair.visible { display: block; }
+        .ct-stair path { fill: none; stroke: #0023a3; stroke-width: 6px; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.45)); }
         .ln-board .grid-divider.dragging { transition: none; }
         .ln-row.five { grid-template-columns: repeat(5, minmax(0, 1fr)); max-width: 56%; margin: 0 auto; width: 56%; }
         .ln-row.split5 { grid-template-columns: repeat(5, minmax(0, 1fr)) 4px repeat(5, minmax(0, 1fr)); }
@@ -2006,8 +2059,51 @@
             box-shadow: 0 2px 6px rgba(0,0,0,0.4); pointer-events: none; transition: left 0.2s ease;
         }
         .ln-eq-sub { font-size: 0.95rem; color: #4a5568; font-weight: 600; text-align: center; margin-top: 2px; }
-        #lnEq .ln-a { color: #0023a3; } #lnEq .ln-b { color: #8f0000; } #lnEq .ln-g { color: #975a16; } #lnEq .ln-t { color: #2d3748; }
+        #lnEq .ln-a { color: #0023a3; } #lnEq .ln-b { color: #8f0000; } #lnEq .ln-g { color: #975a16; } #lnEq .ln-t { color: #1e8c4a; }
         #lnEq .equation-part.hidden { opacity: 0.3; background-color: rgba(0,0,0,0.1); }
+        /* Rectangles: the ones digits, and the "Why?" walkthrough */
+        #lnEq .ln-u { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 5px; }
+        #lnEq .ln-u.p1, #lnEq .ln-u.p2 { text-decoration: none; border-radius: 5px; padding: 0 3px; box-shadow: inset 0 -0.15em 0 rgba(0,0,0,0.12); }
+        #lnEq .ln-u.p1 { background: #fde68a; }
+        #lnEq .ln-u.p2 { background: #b2f5ea; }
+        .ln-why-eq { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 1px; width: 100%; }
+        .ln-why {
+            border: none; border-radius: 12px; padding: 2px 11px; margin-left: 4px; vertical-align: 1px;
+            background: var(--bg-accent); color: white; font: inherit; font-size: 0.8rem; font-weight: 800; cursor: pointer;
+        }
+        .ln-why:hover { filter: brightness(1.15); }
+        .ln-why:focus-visible { outline: 3px solid var(--bg-accent); outline-offset: 2px; }
+        .ln-ball.why-off { opacity: 0.22; }
+        #lnEq .ln-clue { font-size: 1.05rem; color: #2d3748; margin: 2px 0 4px; }
+        #lnEq .ln-hundred { font-weight: 900; }
+        #lnEq .ln-next { margin-left: 10px; font-size: 0.95rem; padding: 4px 14px; animation: lnNextBlink 1.2s steps(1, end) 1s infinite; }
+        /* After 1 second, the colour swaps between purple and orange (no movement). */
+        @keyframes lnNextBlink {
+            0% { background: var(--bg-accent); }
+            50% { background: #e8590c; }
+        }
+        #lnEq .ln-clue-line { margin: 1px 0; }
+        #lnEq .ln-more { font-size: 0.8rem; padding: 2px 10px; }
+        #lnEq .ln-another { margin-left: 10px; font-size: 0.85rem; padding: 3px 12px; background: #e8590c; }
+        #lnEq .ln-tapq { cursor: pointer; min-width: 1.4em; text-align: center; opacity: 0.75; }
+        #lnEq .ln-again { animation: countPulse 0.45s ease; font-weight: 700; }
+        #lnEq .why-new { animation: countPulse 0.45s ease; }
+        .ln-why-panel {
+            position: absolute; z-index: 6; box-sizing: border-box;
+            background: rgba(255,255,255,0.72); -webkit-backdrop-filter: blur(1.5px); backdrop-filter: blur(1.5px);
+            border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.15em;
+            padding: 0.4em 0.5em; text-align: center; line-height: 1.2; overflow: hidden; color: #2d3748;
+            pointer-events: none;   /* taps go through to the balls: a new split at any time */
+        }
+        .ln-why-panel.in { animation: whyIn 0.3s ease; }
+        .ln-why-panel .pw-sum { font-weight: 800; font-size: 1.3em; }
+        .ln-why-panel .pw-bond { font-weight: 700; font-size: 0.8em; color: #4a5568; }
+        .ln-why-panel .ln-a { color: #0023a3; } .ln-why-panel .ln-b { color: #8f0000; }
+        @keyframes whyIn { from { opacity: 0; } to { opacity: 1; } }
+        @media (prefers-reduced-motion: reduce) { .ln-why-panel.in { animation: none; } }
+        .ln-ball.why-ring1 { outline: 4px solid #f6c945; outline-offset: 2px; }
+        .ln-ball.why-ring2 { outline: 4px solid #4fd1c5; outline-offset: 2px; }
         .ln-controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 16px; }
         .ln-hint { color: rgba(255,255,255,0.9); font-weight: 700; text-align: center; }
         #lnEq, #extEq { flex-wrap: wrap; }
@@ -2031,6 +2127,10 @@
         @media (min-width: 768px) { .grid-footer .gf-pills .count-toggle-segment { font-size: 0.8rem; padding: 5px 12px; } }
         .grid-footer .ext-label { font-size: 0.74rem; }
         .grid-footer .corner-quiz { position: static; flex: none; align-self: center; }
+        /* Lines has five choices: on a narrow screen they wrap onto two lines
+           inside the pill rather than running off the edge. */
+        #linesApp .grid-footer .count-toggle-pill { flex-wrap: wrap; justify-content: center; max-width: 100%; }
+        @media (max-width: 480px) { #linesApp .grid-footer .count-toggle-pill { border-radius: 14px; } }
         .grid-footer [hidden] { display: none !important; }
         .grid-footer .count-toggle-segment { white-space: nowrap; }
         @media (max-width: 440px) { .grid-footer .count-toggle-segment { font-size: 0.68rem; padding: 4px 6px; } .grid-footer { padding: 2px 5px 7px; gap: 4px; } .grid-footer .gf-pills { gap: 4px; } .grid-footer .corner-quiz { padding: 3px 7px; font-size: 0.68rem; } }
@@ -2187,7 +2287,7 @@
         .grid-cell.data-cell.ext-extra { box-shadow: 0 0 0 4px #f6c945, inset -5px -5px 10px rgba(0,0,0,0.45), inset 5px 5px 10px rgba(255,255,255,0.75); }
         .grid-cell.data-cell.ext-extra.ext-label-g { color: #fff6c7 !important; text-shadow: 0 1px 2px rgba(0,0,0,0.6); }
         .grid-cell.data-cell.ext-num { color: white !important; font-weight: 800; text-shadow: 0 1px 2px rgba(0,0,0,0.6); }
-        #lnCoverNone[aria-pressed="true"], #lnCoverBig[aria-pressed="true"] { background: rgba(255,255,255,0.95); color: var(--bg-accent); }
+        #lnCoverNone[aria-pressed="true"], #lnCoverBig[aria-pressed="true"], #lnCoverRand[aria-pressed="true"] { background: rgba(255,255,255,0.95); color: var(--bg-accent); }
         #extEq .x-a { color: #0023a3; } #extEq .x-b { color: #8f0000; } #extEq .x-t { color: #21613c; } #extEq .x-g { color: #975a16; }
         #extEq .x-sub { font-size: 0.7em; }
         .ext-status { color: rgba(255,255,255,0.85); font-size: 0.85rem; text-align: center; margin-top: 6px; font-weight: 600; }
@@ -2352,9 +2452,11 @@
         <div id="linesApp" class="as-hidden">
             <div class="ln-sub">
                 <div class="count-toggle-pill" role="group" aria-label="Choose a line">
-                    <button class="count-toggle-segment" type="button" data-ln="ten" aria-pressed="true">Line of 10</button>
-                    <button class="count-toggle-segment" type="button" data-ln="five" aria-pressed="false">Line of 5</button>
-                    <button class="count-toggle-segment" type="button" data-ln="fiveplus" aria-pressed="false">Line of 5+</button>
+                    <button class="count-toggle-segment" type="button" data-ln="ten" aria-pressed="true" title="Line of 10">1-10</button>
+                    <button class="count-toggle-segment" type="button" data-ln="tens" aria-pressed="false" title="Lines of 10: 3 tens and 7 tens make 100">10x</button>
+                    <button class="count-toggle-segment" type="button" data-ln="five" aria-pressed="false" title="Line of 5">1-5</button>
+                    <button class="count-toggle-segment" type="button" data-ln="fiveplus" aria-pressed="false" title="Line of 5+">5-10</button>
+                    <button class="count-toggle-segment" type="button" data-ln="dbl" aria-pressed="false" title="Doubles and halves, odd and even">Doubles</button>
                     <button class="count-toggle-segment" type="button" data-ln="rect" aria-pressed="false">Rectangles</button>
                 </div>
             </div>
@@ -2384,6 +2486,7 @@
                         <div class="count-toggle-pill">
                             <button class="count-toggle-segment" id="lnCoverNone" type="button" aria-pressed="true">Nothing</button>
                             <button class="count-toggle-segment" id="lnCoverBig" type="button" aria-pressed="false">Bigger side</button>
+                            <button class="count-toggle-segment" id="lnCoverRand" type="button" aria-pressed="false">Random</button>
                         </div>
                     </div>
                 </div>
@@ -2402,8 +2505,20 @@
                     <span id="asB" class="equation-part">?</span>
                     <span>=</span>
                     <span id="asR" class="equation-part">?</span>
+                    <span id="asStepEq" class="as-stepeq"></span>
                 </div>
                 <button class="info-button small" id="asEqInfo" aria-label="Show adding and taking away help" title="Instructions">i</button>
+            </div>
+            <div class="as-jumps-wrap">
+                <div class="count-toggle" id="asJumpsRow">
+                    <span class="toggle-label">Jumps:</span>
+                    <div class="count-toggle-pill" role="group" aria-label="How to split the jumps">
+                        <button class="count-toggle-segment" type="button" data-jumps="ten" aria-pressed="true" title="Make the next ten first, then the tens, then the rest">Through ten</button>
+                        <button class="count-toggle-segment" type="button" data-jumps="tens" aria-pressed="false" title="Keep the first number whole: add the tens, then the ones">Tens first</button>
+                        <button class="count-toggle-segment" type="button" data-jumps="five" aria-pressed="false" title="Tens first, then the ones as five and a bit">Five and a bit</button>
+                        <button class="count-toggle-segment" type="button" data-jumps="near" aria-pressed="false" title="Round to the nearest ten, jump the tens, then put right the few ones">Nearest ten</button>
+                    </div>
+                </div>
             </div>
 
             <div class="mastery-panel">
@@ -2428,6 +2543,7 @@
 
             <div class="as-info" id="asInfo">
                 <div class="as-hint" id="asHint"></div>
+                <div class="as-why" id="asWhy"></div>
                 <div class="as-tens" id="asTens"></div>
                 <div class="as-steps" id="asSteps"></div>
                 <svg class="as-numline" id="asNumline" viewBox="0 0 460 96" role="img" aria-label="Number line showing the jumps"></svg>
@@ -2447,12 +2563,13 @@
                     </div>
                     <button class="info-button small" id="asCountInfo" aria-label="Show counting help" title="Instructions">i</button>
                 </div>
-                <div class="count-toggle">
-                    <span class="toggle-label">Jumps:</span>
-                    <div class="count-toggle-pill" role="group" aria-label="How to split the jumps">
-                        <button class="count-toggle-segment" type="button" data-jumps="ten" aria-pressed="true" title="Make the next ten first, then the tens, then the rest">Through ten</button>
-                        <button class="count-toggle-segment" type="button" data-jumps="tens" aria-pressed="false" title="Keep the first number whole: add the tens, then the ones">Tens first</button>
-                        <button class="count-toggle-segment" type="button" data-jumps="five" aria-pressed="false" title="Tens first, then the ones as five and a bit">Five and a bit</button>
+                <div class="count-toggle" id="asSubWayRow">
+                    <span class="toggle-label">Show:</span>
+                    <div class="count-toggle-pill as-modes" role="group" aria-label="How to work it out">
+                        <button class="count-toggle-segment" type="button" data-subway="tens" aria-pressed="false" title="Rows of ten and loose ones: put together, or break a ten">Tens &amp; ones</button>
+                        <button class="count-toggle-segment" type="button" data-subway="take" aria-pressed="true" title="Jump along the grid (choose the jumps below)" id="asWayAlong">Jumps</button>
+                        <button class="count-toggle-segment" type="button" data-subway="diff" aria-pressed="false" title="Keep both numbers and count up from the smaller to the bigger" id="asWayDiff">Difference</button>
+                        <button class="count-toggle-segment" type="button" data-subway="best" aria-pressed="false" title="The app picks the best way for these numbers, and says why">Best way</button>
                     </div>
                 </div>
             </div>
@@ -2465,6 +2582,7 @@
             <h3>Counting</h3>
             <p>Tap any ball to choose a number, then tap <strong>▶ Count</strong>. MathGrid counts along the rows, one ball at a time.</p>
             <p>Choose <strong>1s, 2s or 5s</strong> to count in steps. The step numbers light up in blue, so the pattern shows on the grid.</p>
+            <p>A blue line follows the count. It runs under each full row of ten, and when a row is only part-filled it steps up beside the last ball counted, so 35 shows as 3 full rows and 5 more.</p>
             <p><strong>Rows</strong> and <strong>Columns</strong> count in tens, a whole row or a whole column at a time. A blue divider follows each finished row, and a red one each finished column, just like the times tables.</p>
             <p><strong>→</strong> counts forwards. <strong>←</strong> starts at the number you chose and counts back to zero.</p>
             <p>The equation shows the number reached, and how many tens and ones it has. The <strong>Counting quiz</strong> asks "How many balls?" and "What comes next?", in seven levels: numbers up to 10; a ten and some more; rows and columns of ten; tens and ones to 50 with 2s and 10s; numbers to 100 with 5s and 10s; counting back; then everything mixed. Every 10 points unlocks the next level.</p>
@@ -2486,12 +2604,14 @@
     <div class="popup-overlay" id="lnHelpPopup">
         <div class="popup">
             <h3>Lines</h3>
-            <p>Each line is the top row of the 10 × 10 grid; the rows below are shaded until you use Rectangles.</p>
-            <p><strong>Line of 10:</strong> tap a ball to split the line. Blue on one side, red on the other, always 10 altogether. See 3, know 7.</p>
-            <p><strong>Line of 5:</strong> the same with five balls.</p>
-            <p><strong>Line of 5+:</strong> numbers from 6 to 9 are a five and a bit. 7 is 5 and 2, with 3 more to make 10.</p>
-            <p><strong>Rectangles:</strong> tap any ball. A line across and a line down split the whole grid into four rectangles that always make 100. Look at the diagonals: the rectangles opposite each other end in the same digit. For example, 12 and 42 both end in 2, and 18 and 28 both end in 8.</p>
-            <p><strong>Hide: Bigger side</strong> covers the larger part of a line, or the largest rectangle, so the child works it out from what they can see. The <strong>Quick look quiz</strong> shows everything for a moment, hides one part, and asks how many are hidden.</p>
+            <p>Each line is the top row of the 10 × 10 grid; the rows below are shaded until you use Lines of 10 or Rectangles.</p>
+            <p><strong>1-10 (line of 10):</strong> tap a ball to split the line. Blue on one side, red on the other, always 10 altogether. See 3, know 7.</p>
+            <p><strong>10x (lines of 10):</strong> the same split on the whole grid, where every ball of the line becomes a column of ten. Tap any ball: 3 columns of ten and 7 columns of ten make 100. See 30, know 70.</p>
+            <p><strong>1-5 (line of 5):</strong> the same with five balls.</p>
+            <p><strong>5-10 (line of 5+):</strong> numbers from 6 to 9 are a five and a bit. 7 is 5 and 2, with 3 more to make 10.</p>
+            <p><strong>Doubles:</strong> the top two rows hold a number in pairs, filled column by column, like a 20-frame. Tap a ball to make a number. 8 shows as 4 + 4: double 4 is 8, half of 8 is 4, and 8 is even because every ball has a partner. 7 shows as 3 + 3 + 1, with the extra ball in gold: 7 is odd. The quiz shows a double for a moment, hides the bottom row and asks, for example, "What is double 4?"</p>
+            <p><strong>Rectangles:</strong> drag the lines, or tap any ball. Dragging one line splits the grid into two colours; dragging the other makes four rectangles. A line across and a line down split the whole grid into four rectangles that always make 100. Rectangles opposite each other share a colour, and they always end in the same digit. For example, 12 and 42 both end in 2, and 18 and 28 both end in 8. After each split, the equation box shows the two pairs one at a time, lighting up each rectangle as its amount appears: 12 + ? + ? + ? = 100 (the whole split), 12 + 18 = 30 (top), 12 + 28 = 40 (left), 28 + 42 = 70 (bottom) and 42 + 18 = 60 (right), with Next after each. You can split the grid by tapping a ball, or by dragging the lines: one line makes two rectangles, both lines make four. Each time, one rectangle stays in place. Then, with Next between each, it shows 12 + 18 = 30 (top two), 28 + 42 = 70 (bottom two), 30 + 70 = 100 (the two row totals) and 40 + 60 = 100 (the two column totals). Whenever a green sum appears, the rectangles it adds up turn green, ending with all 100 balls green. Two rectangles side by side are whole lines of ten, so their ones make 10 (2 + 8). That is why rectangles of the same colour end the same.</p>
+            <p><strong>Hide: Bigger side</strong> covers the larger part of a line, or the largest rectangle, so the child works it out from what they can see. <strong>Hide: Random</strong> covers either side, or any rectangle, so the child can't guess that the hidden part is always the big one. The <strong>Another</strong> button beside the equation makes a new random example. In Rectangles, a hidden rectangle comes with clues, starting with the one beside it (or above or below it): for example 18 + ? = 60. The clues stay hidden until the child taps <strong>Clue</strong> (or the ?): one clue at a time, each replacing the last. It starts with the easiest neighbour, then the other neighbour, then the opposite rectangle, which ends in the same digit. The hidden number is shown once all three clues have been given. The <strong>Quick look quiz</strong> shows everything for a moment, hides one part, and asks how many are hidden. In Rectangles it is a <strong>Clue quiz</strong>: the largest rectangle (or, with Hide: Random, any rectangle) is hidden from the start, and a clue points to one rectangle you can see: the one beside it ("It goes with 28 beside it to make 70") or the one opposite ("It ends in 2, like 12 opposite it").</p>
             <button class="popup-close" onclick="closePopup('lnHelpPopup')">Got it!</button>
         </div>
     </div>
@@ -2658,9 +2778,12 @@
     <div class="popup-overlay" id="asHelpPopup">
         <div class="popup">
             <h3>Adding &amp; Taking Away</h3>
-            <p>Tap a ball to choose the first number (blue). Then tap where you want to land.</p>
-            <p>When adding, tap a ball further on: the red balls are the number added. When taking away, tap a ball further back: those balls get crossed off. The green ball is the answer.</p>
-            <p><strong>Count: Ones</strong> counts on (or back) one ball at a time. <strong>Count: Tens</strong> counts in jumps. With <strong>Jumps: Through ten</strong> it jumps to the next ten first, then in tens, then the ones left over. With <strong>Jumps: Tens first</strong> it keeps the first number whole and adds one ten at a time, straight down the grid, then the ones: 38 + 27 is 38 → 48 → 58, then + 2 = 60 and + 5 = 65. With <strong>Jumps: Five and a bit</strong> it jumps the tens, then splits the ones into 5 and a bit: 32 − 7 is 32 − 2 = 30, then 30 − 5 = 25.</p>
+            <p>Choose each number by its place on the grid, counting from 1: tap it, or press and slide along the grid (the balls light up, and a bubble above your finger shows the number), then let go. For 38 + 25, choose 38, then 25. For 52 − 17, choose 52, then 17.</p>
+            <p>When adding, the second number slides in as red balls after the first. When taking away, that many balls are crossed off the end. The green ball is the answer. If the second number is too big (more than 100 altogether, or more than you have), the line under the grid says so and you can choose again.</p>
+            <p><strong>Count: Ones</strong> counts on (or back) one ball at a time. <strong>Count: Tens</strong> counts in jumps. With <strong>Jumps: Through ten</strong> it jumps to the next ten first, then in tens, then the ones left over. With <strong>Jumps: Tens first</strong> it keeps the first number whole and adds all the tens in one jump, straight down the grid, then the ones: 38 + 27 is 38 + 20 = 58, then + 2 = 60 and + 5 = 65. With <strong>Jumps: Five and a bit</strong> it jumps the tens, then splits the ones into 5 and a bit: 32 − 7 is 32 − 2 = 30, then 30 − 5 = 25. With <strong>Jumps: Nearest ten</strong> it rounds the second number to its nearest ten, makes one jump of tens, then puts right the few ones, with Next between the steps: 38 + 29 is 38 + 30 = 68, then 68 − 1 = 67; 52 − 19 is 52 − 20 = 32, then 32 + 1 = 33. Balls jumped too far are crossed off, and balls given back get a gold ring.</p>
+            <p>When taking away, <strong>Difference</strong> keeps both numbers on the grid. Tap the bigger number, then the number to take away: the app counts up from the smaller to the bigger in friendly steps, with Next between them. 52 − 17: 17 → 20 is 3, 20 → 50 is 30, 50 → 52 is 2, so the difference is 3 + 30 + 2 = 35. It is quickest when the two numbers are close: 52 − 48 is just 4.</p>
+            <p>The buttons along the bottom of the grid choose how to work it out: <strong>Tens &amp; ones</strong>, <strong>Jumps</strong> (choose the kind of jump below), <strong>Difference</strong> (taking away only) or <strong>Best way</strong>, where the app looks at the numbers, picks a way and says why (for example, 52 − 48: "48 is close to 52, so find the difference"; 64 − 39: "39 is nearly 40"). Adding starts in Tens &amp; ones, and taking away in Jumps (tens first). Each player's choices are remembered.</p>
+            <p><strong>Tens and ones</strong> lays the numbers out as rows of ten (with a frame round each) and loose ones, with Next between the steps. Adding 38 + 25: the tens go together (3 tens + 2 tens = 5 tens), then the ones (8 + 5 = 13), then the total: 50 + 13 = 63, where 10 of the ones fill up the next row of ten (it gets a gold frame). The equation box shows the numbers counted in each step. Taking away 52 − 17: there aren't enough ones to take 7, so a ten is broken into 10 ones (4 tens and 12 ones); then 12 − 7 = 5 ones and 4 tens − 1 ten = 3 tens: 35.</p>
             <p>Tap any number in the equation to hide or show it. Tap the <strong>+</strong> or <strong>−</strong> to switch.</p>
             <button class="popup-close" onclick="closePopup('asHelpPopup')">Got it!</button>
         </div>
@@ -6060,6 +6183,8 @@
                 this.labels = null;   // number labels left by a count
                 this.currentStep = -1;
                 this.jumpStyle = 'ten';
+                this.subWay = 'take';   // 'tens' | 'take' (jumps) | 'diff' (taking away) | 'best'
+                this.loadWays();
 
                 // Quiz
                 this.quizOn = false;
@@ -6131,7 +6256,7 @@
                         cell.setAttribute('role', 'button');
                         cell.setAttribute('aria-label', String(n));
                         cell.tabIndex = -1;
-                        cell.addEventListener('click', () => this.tap(n));
+                        cell.addEventListener('click', () => { if (Date.now() - (this.suppressClick || 0) < 600) return; this.tap(n); });
                         this.cells[n] = cell;
                         g.appendChild(cell);
                     }
@@ -6171,6 +6296,7 @@
                 this.qV.style.left = `${c5.right - gr.left + gap / 2 - 2}px`;
                 this.qV.style.top = `${c1.top - gr.top}px`;
                 this.qV.style.height = `${c100.bottom - c1.top}px`;
+                if (this.curFrames && this.curFrames.length) this.drawFrames(this.curFrames);
             }
 
             bind() {
@@ -6185,27 +6311,147 @@
                 document.getElementById('asEqInfo').addEventListener('click', () => showPopup('asHelpPopup'));
                 document.querySelectorAll('[data-jumps]').forEach(btn => btn.addEventListener('click', () => {
                     if (this.counting) this.stop(true);
+                    if (this.subWay === 'best') { this.setWay('take'); this.ways[this.op] = 'take'; }
                     this.jumpStyle = btn.dataset.jumps;
+                    this.jumpsFor[this.op] = this.jumpStyle; this.saveWays();
                     document.querySelectorAll('[data-jumps]').forEach(x => x.setAttribute('aria-pressed', String(x === btn)));
                     this.labels = null;
+                    this.overlay = null;
+                    this.showAns = false;
                     if (!this.quizAsking) this.render();
+                    if (this.subWay === 'take' && this.jumpStyle === 'near' && !this.quizActive && this.stage === 'done' && this.nearTen() !== null) this.walkNear();
                 }));
                 document.getElementById('asCountInfo').addEventListener('click', () => showPopup('asHelpPopup'));
+                document.querySelectorAll('[data-subway]').forEach(btn => btn.addEventListener('click', () => {
+                    if (this.counting) this.stop(true);
+                    this.subWay = btn.dataset.subway;
+                    this.ways[this.op] = this.subWay; this.saveWays();
+                    if (this.subWay !== 'best') this.jumpStyle = this.jumpsFor[this.op];
+                    document.querySelectorAll('[data-subway]').forEach(x => x.setAttribute('aria-pressed', String(x === btn)));
+                    this.labels = null; this.overlay = null; this.showAns = false;
+                    if (!this.quizAsking) this.render();
+                    if (this.stage !== 'done') return;
+                    if (this.subWay === 'best') this.pickBest();
+                    if (this.tensOn()) this.walkTO();
+                    else if (this.diffOn()) this.walkDiff();
+                    else if (this.jumpStyle === 'near' && this.nearTen() !== null) this.walkNear();
+                }));
                 const sp = document.getElementById('asSpeed');
                 sp.addEventListener('input', e => {
                     this.speed = parseInt(e.target.value, 10);
                     document.getElementById('asSpeedValue').textContent = this.speed;
                 });
                 this.onesBtn.addEventListener('click', () => this.counting === 'ones' ? this.stop() : (!this.counting && this.count('ones')));
-                this.tensBtn.addEventListener('click', () => this.counting === 'tens' ? this.stop() : (!this.counting && this.count('tens')));
+                this.tensBtn.addEventListener('click', () => this.counting === 'tens' ? this.stop()
+                    : (!this.counting && (this.tensOn() && !this.quizActive ? this.walkTO() : this.diffOn() && !this.quizActive ? this.walkDiff()
+                        : this.jumpStyle === 'near' && !this.quizActive && this.nearTen() !== null ? this.walkNear() : this.count('tens'))));
                 document.getElementById('toggleNumbers').addEventListener('change', () => this.render());
                 document.getElementById('toggleHeaderNumbers').addEventListener('change', e => {
                     this.grid.querySelectorAll('.header-cell').forEach(h => h.classList.toggle('numbers-hidden', !e.target.checked));
                 });
                 window.addEventListener('resize', () => this.layout());
+                this.bindSlide();
+            }
+
+            // Press and slide to choose a number: balls 1..n light up, a bubble
+            // above the finger shows n, and the equation updates; lifting the
+            // finger chooses it. With a mouse, the same preview follows hover.
+            bindSlide() {
+                const g = this.grid;
+                const bubble = document.createElement('div');
+                bubble.className = 'as-bubble';
+                bubble.hidden = true;
+                document.body.appendChild(bubble);
+                this.bubble = bubble;
+                let down = false, last = 0;
+                const cellAt = (x, y) => { const el = document.elementFromPoint(x, y); const c = el && el.closest && el.closest('#asGrid .as-cell'); return c ? Number(c.dataset.n) : 0; };
+                const preview = (n, x, y) => {
+                    if (this.quizActive) return;
+                    if (!n) { if (!down) { last = 0; this.clearPreview(); } return; }   // between balls while sliding: keep the last number
+                    last = n;
+                    const pickingB = this.stage === 'pickB';
+                    const bad = pickingB && (this.op === '+' ? this.a + n > 100 : n > this.a);
+                    for (let k = 1; k <= 100; k++) this.cells[k].classList.toggle('as-prev', k <= n);
+                    for (let k = 1; k <= 100; k++) this.cells[k].classList.toggle('as-prev-bad', bad && k <= n);
+                    bubble.textContent = n;
+                    bubble.classList.toggle('bad', bad);
+                    bubble.hidden = false;
+                    bubble.style.left = `${x}px`;
+                    bubble.style.top = `${y}px`;
+                    // the equation shows the number being chosen
+                    if (pickingB) { this.bEl.textContent = n; this.bEl.className = 'equation-part as-live'; }
+                    else if (!this.counting) { this.aEl.textContent = n; this.aEl.className = 'equation-part as-live'; this.bEl.textContent = '?'; this.rEl.textContent = '?'; }
+                };
+                g.addEventListener('pointerdown', e => {
+                    if (this.quizActive || !e.target.closest('.as-cell')) return;
+                    down = true;
+                    try { g.setPointerCapture(e.pointerId); } catch (err) { /* fine */ }
+                    preview(cellAt(e.clientX, e.clientY), e.clientX, e.clientY);
+                    e.preventDefault();
+                });
+                g.addEventListener('pointermove', e => {
+                    if (!down && e.pointerType !== 'mouse') return;
+                    if (!down && this.counting) return;
+                    if (!down && this.stage === 'done') return;   // a problem is set up: no highlighter until the child presses a ball
+                    const n = cellAt(e.clientX, e.clientY);
+                    if (n !== last || down) preview(n, e.clientX, e.clientY);
+                });
+                const end = e => {
+                    if (!down) return;
+                    down = false;
+                    const n = cellAt(e.clientX, e.clientY) || last;
+                    this.clearPreview();
+                    this.suppressClick = Date.now();
+                    if (n) this.tap(n);
+                };
+                g.addEventListener('pointerup', end);
+                g.addEventListener('pointercancel', () => { down = false; this.clearPreview(); this.render(); });
+                g.addEventListener('pointerleave', e => { if (!down) { this.clearPreview(); if (!this.counting) this.render(); } });
+            }
+
+            clearPreview() {
+                if (this.bubble) this.bubble.hidden = true;
+                for (let k = 1; k <= 100; k++) { this.cells[k].classList.remove('as-prev'); this.cells[k].classList.remove('as-prev-bad'); }
             }
 
             result() { return this.op === '+' ? this.a + this.b : this.a - this.b; }
+
+            // Each operation keeps its own way of working and jump style, remembered
+            // for each player. Defaults: adding in tens and ones; taking away in
+            // jumps, tens first (keep the first number whole).
+            loadWays() {
+                const get = (k, d) => { try { return MG.get(k) || d; } catch (e) { return d; } };
+                this.ways = { '+': get('mathgrid_as_way_add', 'tens'), '-': get('mathgrid_as_way_sub', 'take') };
+                this.jumpsFor = { '+': get('mathgrid_as_jumps_add', 'ten'), '-': get('mathgrid_as_jumps_sub', 'tens') };
+                this.applyWays();
+            }
+            saveWays() {
+                try {
+                    MG.set('mathgrid_as_way_add', this.ways['+']); MG.set('mathgrid_as_way_sub', this.ways['-']);
+                    MG.set('mathgrid_as_jumps_add', this.jumpsFor['+']); MG.set('mathgrid_as_jumps_sub', this.jumpsFor['-']);
+                } catch (e) { /* not saved */ }
+            }
+            applyWays() {
+                const op = this.op;
+                let way = this.ways[op];
+                if (op === '+' && way === 'diff') way = 'take';
+                this.subWay = way;
+                this.jumpStyle = this.jumpsFor[op];
+                document.querySelectorAll('[data-subway]').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.subway === way)));
+                document.querySelectorAll('[data-jumps]').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.jumps === this.jumpStyle)));
+            }
+            reloadForPlayer() { this.stop(true); this.loadWays(); this.overlay = null; this.render(); }
+
+            // The ten nearest to the second number (29 -> 30, 32 -> 30, 7 -> 10), or
+            // null when the jump to it would leave the grid (or there is nothing to do).
+            nearTen() {
+                const b = this.b;
+                if (b <= 0) return null;
+                const B = Math.round(b / 10) * 10 || 10;
+                const land = this.op === '+' ? this.a + B : this.a - B;
+                if (land < 1 || land > 100) return null;
+                return B;
+            }
 
             setOp(op, keepNumbers) {
                 if (this.quizActive) {
@@ -6215,10 +6461,12 @@
                 }
                 this.stop(true);
                 this.op = op;
+                this.applyWays();
                 if (op === '-' && this.b > this.a) this.b = this.a;
                 if (op === '+' && this.a + this.b > 100) this.b = 100 - this.a;
                 this.labels = null;
                 this.showAns = false;
+                this.overlay = null;
                 this.render();
             }
 
@@ -6226,7 +6474,7 @@
                 if (this.quizActive) this.stopQuiz();
                 this.stop(true);
                 this.a = 0; this.b = 0; this.stage = 'pickA';
-                this.showA = this.showB = true; this.showAns = false; this.labels = null;
+                this.showA = this.showB = true; this.showAns = false; this.labels = null; this.overlay = null;
                 this.render();
             }
 
@@ -6234,29 +6482,79 @@
                 if (this.quizActive) return;
                 if (this.counting) this.stop(true);
                 this.labels = null;
+                // Both numbers are chosen by their own place on the grid, counting
+                // from 1: 38 + 25 is "tap 38, then tap 25"; 52 − 17 is "tap 52, then 17".
+                this.tooBig = null;
                 if (this.stage === 'pickB') {
-                    if (this.op === '+' && n > this.a) { this.b = n - this.a; this.stage = 'done'; }
-                    else if (this.op === '-' && n < this.a) { this.b = this.a - n; this.stage = 'done'; }
-                    else { this.a = n; this.b = 0; }
+                    if (this.op === '+' && this.a + n > 100) { this.tooBig = n; this.render(); return; }
+                    if (this.op === '-' && n > this.a) { this.tooBig = n; this.render(); return; }
+                    this.b = n; this.stage = 'done';
+                    if (this.subWay === 'best') this.pickBest();
                 } else {
                     this.a = n; this.b = 0; this.stage = 'pickB';
                 }
                 this.showAns = false;
+                this.overlay = null;
+                this.toHtml = '';
+                this.stepEqHtml = null;
                 this.render();
+                if (this.stage === 'done' && !this.diffOn()) this.introB();
+                else this.afterSetUp();
+            }
+
+            // The second number joins the first: 25 red balls slide in after the 38
+            // (or 17 balls are crossed off the end of the 52), then the method runs.
+            async introB() {
+                const tok = ++this.tok;
+                const b = this.b;
+                for (let k = 1; k <= b; k++) {
+                    this.render({ shown: k, running: '?' });
+                    await this.sleep(Math.max(12, Math.min(40, 600 / b)));
+                    if (tok !== this.tok) return;
+                }
+                await this.sleep(250); if (tok !== this.tok) return;
+                this.render();
+                this.afterSetUp();
+            }
+
+            afterSetUp() {
+                if (this.stage !== 'done' || this.quizActive) return;
+                if (this.tensOn()) this.walkTO();
+                else if (this.diffOn()) this.walkDiff();
+                else if (this.jumpStyle === 'near' && this.nearTen() !== null) this.walkNear();
+            }
+
+            setWay(way) {
+                this.subWay = way;
+                if (way !== 'best') this.jumpStyle = this.jumpsFor ? this.jumpsFor[this.op] : this.jumpStyle;
+                document.querySelectorAll('[data-subway]').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.subway === way)));
             }
 
             // Bridge-through-ten jumps, e.g. 38 + 27: 38 → 40 → 60 → 65
-            strategy() {
+            strategy(style = this.jumpStyle, allowDiff = true) {
                 const a = this.a, b = this.b, pts = [a];
                 if (b <= 0) return pts;
+                if (allowDiff && this.diffOn()) return this.diffPts();
                 let cur = a, left = b;
                 const dir = this.op === '+' ? 1 : -1;
-                if (this.jumpStyle === 'tens') {
+                if (style === 'near') {
+                    // Nearest ten (rounding and adjusting): round the second number
+                    // to its nearest ten, make one jump of tens, then put right the
+                    // few ones: 38 + 29 = 38 + 30 − 1; 52 − 19 = 52 − 20 + 1.
+                    const near = this.nearTen();
+                    if (near !== null) {
+                        if (near > 0) pts.push(a + dir * near);
+                        if (near !== b) pts.push(a + dir * b);
+                        return pts;
+                    }
+                    style = 'ten';   // the jump would leave the grid: bridge through ten instead
+                }
+                if (style === 'tens') {
                     // Tens first (Beishuizen's N10): keep the first number whole,
-                    // jump one ten at a time (straight down the grid), then the
-                    // ones, bridging through the next ten if they cross it.
+                    // jump all the tens at once (52 − 20 = 32, straight up the grid),
+                    // then the ones, bridging through the next ten if they cross it.
                     const nTens = Math.floor(left / 10);
-                    for (let k = 0; k < nTens; k++) { cur += dir * 10; pts.push(cur); }
+                    if (nTens > 0) { cur += dir * 10 * nTens; pts.push(cur); }
                     left -= nTens * 10;
                     if (left > 0) {
                         const toTenT = dir > 0 ? (10 - cur % 10) % 10 : cur % 10;
@@ -6265,7 +6563,7 @@
                     }
                     return pts;
                 }
-                if (this.jumpStyle === 'five') {
+                if (style === 'five') {
                     // Five and a bit: tens first, then the ones as 5 + a bit.
                     // If the small part finishes the ten, it goes first.
                     const tens5 = Math.floor(left / 10) * 10;
@@ -6311,6 +6609,11 @@
                     if (complete && n === r) label = this.showAns || nums ? n : '';
                     if (o.markAns && n === r) label = n;
                     if (labels[n] !== undefined) label = labels[n];
+                    const ov = o.overlay || (this.stage === 'done' && !this.counting && !this.quizActive ? this.overlay : null);
+                    if (ov && ov[n] !== undefined) {
+                        cls = 'grid-cell as-cell ' + ov[n];
+                        label = /as-ans|as-lab/.test(ov[n]) ? n : (nums ? n : '');
+                    }
                     if (label !== '') cls += ' as-num';
                     cell.className = cls;
                     cell.textContent = label;
@@ -6331,6 +6634,21 @@
                     set(this.rEl, this.showAns, this.stage === 'done' ? r : null);
                 }
                 this.renderInfo();
+                const wd = document.getElementById('asWayDiff');
+                if (wd) wd.classList.toggle('as-hidden', op !== '-');           // Difference is for taking away
+                if (op === '+' && this.subWay === 'diff') this.setWay('take');
+                // The Jumps buttons (moved into the grid's footer) only apply along the grid
+                const jr = document.getElementById('asJumpsRow');
+                // shown in Jumps mode, and when Best way has chosen a jump (with that jump lit)
+                const bestJump = this.subWay === 'best' && this.best && this.best.way === 'take' && this.stage === 'done';
+                if (jr) jr.classList.toggle('as-hidden', !(this.subWay === 'take' || bestJump) || this.quizActive);
+                document.querySelectorAll('[data-jumps]').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.jumps === this.jumpStyle)));
+                const ov0 = o.overlay || (this.stage === 'done' && !this.counting && !this.quizActive ? this.overlay : null);
+                this.drawFrames(ov0 ? (o.frames || this.overlayFrames || []) : []);
+                const stepMode = !!(ov0 && this.tensOn() && this.stepEqHtml);
+                this.rEl.parentElement.classList.toggle('as-stepmode', stepMode);
+                const se = document.getElementById('asStepEq');
+                if (se) se.innerHTML = stepMode ? this.stepEqHtml : '';
                 const idle = this.stage !== 'done' || b === 0 || this.quizActive;
                 if (!this.counting) {
                     this.onesBtn.disabled = idle;
@@ -6338,14 +6656,25 @@
                 }
             }
 
+            // The line under the grid always says what to tap next.
+            updateHint() {
+                if (this.quizActive) { this.hintEl.classList.remove('as-hidden'); return; }
+                if (this.stage !== 'done') { this.hintEl.classList.remove('as-hidden'); return; }
+                const text = this.awaitingNext ? 'Tap Next to see the next step.'
+                    : this.counting ? '' : 'Tap a ball, or slide, to start a new sum.';
+                this.hintEl.textContent = text;
+                this.hintEl.classList.toggle('as-hidden', !text);
+            }
+
             renderInfo() {
                 const op = this.op;
                 if (this.stage === 'pickA') {
-                    this.hintEl.textContent = 'Tap a ball to choose the first number.';
+                    this.hintEl.textContent = 'Tap a ball, or slide along the grid, to choose the first number.';
                 } else if (this.stage === 'pickB') {
-                    this.hintEl.textContent = op === '+'
-                        ? `Now tap a ball after ${this.a} to add on.`
-                        : `Now tap a ball before ${this.a} to take away.`;
+                    this.hintEl.textContent = this.tooBig !== null && this.tooBig !== undefined
+                        ? (op === '+' ? `${this.a} + ${this.tooBig} is more than 100. Choose a smaller number.` : `You can't take ${this.tooBig} away from ${this.a}. Choose a number up to ${this.a}.`)
+                        : op === '+' ? 'Now choose the number to add: tap it, or slide from the start of the grid.'
+                        : 'Now choose the number to take away: tap it, or slide from the start of the grid.';
                 } else {
                     this.hintEl.textContent = '';
                 }
@@ -6353,29 +6682,56 @@
                     const lvl = Math.floor(this.score / 10);
                     this.hintEl.innerHTML = `Quiz · Level ${lvl} <span class="as-level">(${this.tierNames[Math.min(lvl, 3)]})</span>`;
                 }
-                this.hintEl.classList.toggle('as-hidden', this.stage === 'done' && !this.quizActive);
+                this.updateHint();
                 if (this.quizAsking) {
                     [this.tensEl, this.stepsEl, this.lineEl].forEach(el => el.classList.add('as-hidden'));
                     return;
                 }
                 const done = this.stage === 'done' && this.b > 0;
                 [this.tensEl, this.stepsEl, this.lineEl].forEach(el => el.classList.toggle('as-hidden', !done));
+                const whyEl = document.getElementById('asWhy');
+                if (whyEl) {
+                    const show = done && this.subWay === 'best' && this.best;
+                    whyEl.innerHTML = show ? `<b>Best way:</b> ${this.best.why}` : '';
+                    whyEl.classList.toggle('as-hidden', !show);
+                }
                 if (!done) return;
                 const r = this.result();
                 const t = Math.floor(r / 10), u = r % 10;
+                this.tensEl.classList.toggle('as-hidden', !!this.counting);   // a walkthrough's hint says what to tap
                 this.tensEl.textContent = this.showAns
                     ? `${r} is ${t} ten${t === 1 ? '' : 's'} and ${u} one${u === 1 ? '' : 's'}`
                     : 'Tap the ? to see the answer in tens and ones';
+                if (this.tensOn()) {
+                    this.stepsEl.innerHTML = this.toHtml ? `<span class="as-step-label">Tens and ones:</span>${this.toHtml}` : '';
+                    this.lineEl.classList.add('as-hidden');
+                    return;
+                }
                 const pts = this.strategy();
                 const sym = op === '+' ? '+' : '−';
-                const label = (this.jumpStyle === 'five' && this.b % 10 >= 6) ? 'Five and a bit:'
+                const diff = this.diffOn();
+                const nearB = this.jumpStyle === 'near' && !diff ? this.nearTen() : null;
+                const label = diff ? 'Find the difference:' : nearB !== null ? 'Nearest ten:'
+                    : (this.jumpStyle === 'five' && this.b % 10 >= 6) ? 'Five and a bit:'
                     : (this.jumpStyle === 'tens' && this.b >= 10) ? 'Tens first:'
                     : pts.length > 2 ? (this.jumpStyle === 'ten' ? 'Bridge through ten:' : 'Tens, then ones:') : (op === '+' ? 'Count on:' : 'Count back:');
                 let html = `<span class="as-step-label">${label}</span>`;
+                if (nearB !== null && nearB !== this.b) {
+                    const d = nearB - this.b;
+                    html += `<span class="as-step as-round${this.currentStep === -2 ? ' current' : ''}">${this.b} is ${nearB} ${d > 0 ? '−' : '+'} ${Math.abs(d)}</span>`;
+                }
                 for (let i = 0; i < pts.length - 1; i++) {
                     const last = i === pts.length - 2;
-                    const end = last && !this.showAns ? '?' : pts[i + 1];
-                    html += `<span class="as-step${i === this.currentStep ? ' current' : ''}">${pts[i]} ${sym} ${Math.abs(pts[i + 1] - pts[i])} = ${end}</span>`;
+                    const ahead = this.counting && (this.jumpStyle === 'near' || diff) && i > this.currentStep;   // not reached yet
+                    const end = (last && !this.showAns && !diff) || ahead ? '?' : pts[i + 1];
+                    const stepSym = pts[i + 1] > pts[i] ? '+' : '−';
+                    html += `<span class="as-step${i === this.currentStep ? ' current' : ''}">${ahead && i > 0 ? '?' : pts[i]} ${stepSym} ${Math.abs(pts[i + 1] - pts[i])} = ${end}</span>`;
+                }
+                if (diff && pts.length > 2) {
+                    const js = pts.slice(1).map((v, i) => v - pts[i]);
+                    html += `<span class="as-step as-total">${js.join(' + ')} = ${this.showAns ? this.result() : '?'}</span>`;
+                } else if (diff) {
+                    html += `<span class="as-step as-total">difference = ${this.showAns ? this.result() : '?'}</span>`;
                 }
                 this.stepsEl.innerHTML = html;
                 this.drawLine(pts);
@@ -6402,7 +6758,7 @@
                     const hgt = Math.min(50, 14 + Math.abs(xb - xa) * 0.3);
                     const cur = i === this.currentStep;
                     h += `<path class="nl-jump" style="opacity:${this.currentStep < 0 || cur ? 1 : 0.55}" d="M${xa},${y} Q${mid},${y - hgt * 2} ${xb},${y}"/>`;
-                    h += `<text class="nl-jl" x="${mid}" y="${y - hgt - 5}" text-anchor="middle">${sym}${Math.abs(pts[i + 1] - pts[i])}</text>`;
+                    h += `<text class="nl-jl" x="${mid}" y="${y - hgt - 5}" text-anchor="middle">${pts[i + 1] > pts[i] ? '+' : '−'}${Math.abs(pts[i + 1] - pts[i])}</text>`;
                 }
                 h += `<circle cx="${sc(pts[0])}" cy="${y}" r="7" fill="#2f4bd0" stroke="white" stroke-width="2"/>`;
                 h += `<circle cx="${sc(pts[pts.length - 1])}" cy="${y}" r="7" fill="${this.showAns ? '#48bb78' : 'rgba(255,255,255,0.35)'}" stroke="white" stroke-width="2"/>`;
@@ -6450,6 +6806,7 @@
 
             startQuiz() {
                 if (this.counting) this.stop(true);
+                this.overlay = null; this.stepEqHtml = null; this.toHtml = '';   // clear any walkthrough picture
                 this.quizActive = true;
                 this.updateQuizPanel();
                 this.nextQuestion();
@@ -6671,11 +7028,16 @@
                         this.render({ shown: k, labels, running: now });
                         pulse(dir > 0 ? now : Math.max(now, 1));
                         this.app.speak(String(now));
-                        await this.app.afterSpeech(this.ballDelay());
+                        // Adding: when the count carries into a new ten
+                        // (e.g. 39 → 40), hold on the new ten after it's
+                        // reached, rather than before it, so the full
+                        // row of ten can be seen before counting on.
+                        const carried = dir > 0 && now % 10 === 0 && k < b;
+                        await this.app.afterSpeech(this.ballDelay() * (carried ? 2 : 1));
                         if (tok !== this.tok) return;
                     }
                 } else {
-                    const pts = this.strategy();
+                    const pts = this.strategy(this.jumpStyle === 'near' ? 'ten' : this.jumpStyle, false);
                     let shown = 0;
                     for (let i = 0; i < pts.length - 1; i++) {
                         this.currentStep = i;
@@ -6701,8 +7063,396 @@
                 this.stop(true);
             }
 
+
+            // ---- Nearest ten, step by step (Next between steps) ----
+            //   38 + 29:  "29 is 30 − 1"  [Next]  38 + 30 = 68 (three rows down)  [Next]  68 − 1 = 67
+            //   52 − 19:  "19 is 20 − 1"  [Next]  52 − 20 = 32 (two rows up)      [Next]  32 + 1 = 33
+            // Over-jumped balls are crossed off; balls given back get a gold ring.
+            async walkNear() {
+                const B = this.nearTen();
+                if (B === null || this.stage !== 'done' || this.quizActive) return;
+                this.stop(true);
+                const tok = ++this.tok;
+                this.counting = 'tens';
+                this.tensBtn.textContent = 'Stop';
+                this.tensBtn.classList.add('stop-button');
+                this.onesBtn.disabled = true;
+                const live = () => tok === this.tok;
+                const a = this.a, b = this.b, add = this.op === '+';
+                const dir = add ? 1 : -1;
+                const mid = a + dir * B, end = a + dir * b;
+                const ov = {};
+                const mark = (n, cls) => { if (n >= 1 && n <= 100) ov[n] = cls; };
+                const pulse = n => { const c = this.cells[n]; if (!c) return; c.classList.remove('counting-animation'); void c.offsetWidth; c.classList.add('counting-animation'); };
+                const draw = running => { this.render({ shown: 0, overlay: ov, running, labels: {} }); };
+                const next = () => new Promise(res => {
+                    const box = this.rEl.parentElement;
+                    const btn = document.createElement('button');
+                    btn.type = 'button'; btn.className = 'as-next'; btn.textContent = 'Next';
+                    const watch = setInterval(() => { if (!live()) { clearInterval(watch); btn.remove(); if (this.nextId === myNext) { this.awaitingNext = false; this.updateHint(); } res(); } }, 250);
+                    btn.addEventListener('click', e => { e.stopPropagation(); clearInterval(watch); btn.remove(); if (this.nextId === myNext) { this.awaitingNext = false; this.updateHint(); } res(); });
+                    box.appendChild(btn);
+                    const myNext = this.nextId = (this.nextId || 0) + 1;   // a cancelled step mustn't clear a newer one's hint
+                    this.awaitingNext = true; this.updateHint();
+                    btn.focus({ preventScroll: true });
+                });
+                const sayJump = (from, d, to) => this.app.speak(`${from} ${d > 0 ? 'add' : 'take away'} ${Math.abs(d)} is ${to}`);
+
+                // 0. The rounding: 29 is 30 − 1
+                this.showAns = false;
+                this.currentStep = -2;
+                draw('?');
+                if (B !== b) this.app.speak(`${b} is close to ${B}. ${b} is ${B} ${B > b ? 'take away' : 'add'} ${Math.abs(B - b)}.`);
+                else this.app.speak(`${b} is ${B / 10} ten${B === 10 ? '' : 's'}.`);
+                await next(); if (!live()) return;
+
+                // 1. One jump of tens, a row at a time (straight down, or straight up)
+                this.currentStep = 0;
+                for (let t = 1; t <= B / 10; t++) {
+                    for (let k = (t - 1) * 10 + 1; k <= t * 10; k++) {
+                        if (add) mark(a + k, 'as-b');          // red balls added
+                        else mark(a - k + 1, 'as-a as-gone');  // blue balls crossed off
+                    }
+                    draw(a + dir * t * 10);
+                    pulse(a + dir * t * 10);
+                    await this.sleep(Math.max(300, this.delay()));
+                    if (!live()) return;
+                }
+                const midWas = ov[mid];
+                mark(mid, (midWas ? midWas + ' ' : '') + 'as-ans');   // the landing is green
+                draw(mid);
+                sayJump(a, dir * B, mid);
+                if (B === b) { this.finishNear(ov); return; }
+                await next(); if (!live()) return;
+
+                // 2. Put right the few ones
+                this.currentStep = 1;
+                if (midWas) ov[mid] = midWas + ' as-lab'; else ov[mid] = 'as-a as-lab';
+                const step = end > mid ? 1 : -1;
+                for (let n = mid + step; step > 0 ? n <= end : n >= end; n += step) {
+                    if (add && step < 0) mark(n + 1, 'as-b as-gone');        // jumped too far: cross off red balls
+                    else if (add) mark(n, 'as-b');                          // not far enough: more red balls
+                    else if (step > 0) mark(n, 'as-a as-back');             // took too many: give balls back
+                    else mark(n + 1, 'as-a as-gone');                       // not enough: cross off more
+                    draw(n);
+                    pulse(n);
+                    await this.sleep(Math.max(300, this.ballDelay() / 2));
+                    if (!live()) return;
+                }
+                mark(end, (ov[end] && !/as-gone/.test(ov[end]) ? ov[end] : (add ? 'as-b' : 'as-a')) + ' as-ans');
+                draw(end);
+                sayJump(mid, end - mid, end);
+                this.finishNear(ov);
+            }
+
+            // ---- Find the difference (taking away), step by step ----
+            //   52 − 17: how far from 17 to 52?  17 → 20 is 3 [Next] 20 → 50 is 30 [Next]
+            //   50 → 52 is 2: 3 + 30 + 2 = 35, and the whole gap turns green.
+            effWay() { return this.subWay === 'best' ? (this.best ? this.best.way : 'take') : this.subWay; }
+            diffOn() { return this.op === '-' && this.effWay() === 'diff'; }
+
+            // Best way: look at the numbers first, then choose (and say why).
+            pickBest() {
+                const a = this.a, b = this.b, add = this.op === '+';
+                const ob = b % 10, near = this.nearTen();
+                let way = 'take', jump = 'tens', why;
+                if (!add && a - b <= 9 && b >= 10) {
+                    way = 'diff'; why = `${b} is close to ${a}, so find the difference: count up from ${b}.`;
+                } else if (b >= 10 && [1, 2, 8, 9].includes(ob) && near !== null) {
+                    jump = 'near'; why = `${b} is nearly ${near}, so jump ${near} and put right the ${Math.abs(near - b)}.`;
+                } else if (add && b >= 10) {
+                    way = 'tens'; why = `Put the tens together, then the ones.`;
+                } else if (b < 10) {
+                    jump = 'ten'; why = add ? `Make the next ten first, then add the rest.` : `Take back to the ten first, then the rest.`;
+                } else {
+                    jump = 'tens'; why = `Keep ${a} whole: take away the tens, then the ones.`;
+                }
+                this.best = { way, why };
+                this.jumpStyle = jump;
+            }
+
+            diffPts() {
+                const lo = this.b, hi = this.a, pts = [lo];   // count up from the number taken away
+                let cur = lo;
+                const nextTen = Math.ceil((cur + 1) / 10) * 10;
+                if (cur % 10 !== 0 && nextTen < hi) { cur = nextTen; pts.push(cur); }
+                const lastTen = Math.floor(hi / 10) * 10;
+                if (lastTen > cur) { cur = lastTen; pts.push(cur); }
+                if (hi > cur) pts.push(hi);
+                return pts;
+            }
+
+            async walkDiff() {
+                if (!this.diffOn() || this.stage !== 'done' || this.b <= 0 || this.quizActive) return;
+                this.stop(true);
+                const tok = ++this.tok;
+                this.counting = 'tens';
+                this.tensBtn.textContent = 'Stop';
+                this.tensBtn.classList.add('stop-button');
+                this.onesBtn.disabled = true;
+                const live = () => tok === this.tok;
+                const a = this.a, lo = this.b, ans = this.a - this.b;
+                const pts = this.diffPts();
+                const ov = {};
+                for (let n = 1; n <= a; n++) ov[n] = n <= lo ? 'as-a' : 'as-gap';
+                if (lo >= 1) ov[lo] = 'as-a as-lab';
+                ov[a] = 'as-gap as-lab';
+                const pulse = n => { const c = this.cells[n]; if (!c) return; c.classList.remove('counting-animation'); void c.offsetWidth; c.classList.add('counting-animation'); };
+                const draw = running => { this.render({ shown: 0, overlay: ov, running, labels: {} }); };
+                const next = () => new Promise(res => {
+                    const box = this.rEl.parentElement;
+                    const btn = document.createElement('button');
+                    btn.type = 'button'; btn.className = 'as-next'; btn.textContent = 'Next';
+                    const watch = setInterval(() => { if (!live()) { clearInterval(watch); btn.remove(); if (this.nextId === myNext) { this.awaitingNext = false; this.updateHint(); } res(); } }, 250);
+                    btn.addEventListener('click', e => { e.stopPropagation(); clearInterval(watch); btn.remove(); if (this.nextId === myNext) { this.awaitingNext = false; this.updateHint(); } res(); });
+                    box.appendChild(btn);
+                    const myNext = this.nextId = (this.nextId || 0) + 1;   // a cancelled step mustn't clear a newer one's hint
+                    this.awaitingNext = true; this.updateHint();
+                    btn.focus({ preventScroll: true });
+                });
+
+                // 0. Both numbers on the grid: how far from 17 to 52?
+                this.showAns = false;
+                this.currentStep = -1;
+                draw('?');
+                this.app.speak(`How far is it from ${lo} to ${a}?`);
+                await next(); if (!live()) return;
+
+                // 1. Count up in friendly steps: to the next ten, the tens, the rest
+                let total = 0;
+                const jumps = [];
+                for (let i = 0; i < pts.length - 1; i++) {
+                    this.currentStep = i;
+                    const from = pts[i], to = pts[i + 1], d = to - from;
+                    const perBall = d < 10;
+                    for (let n = from + 1; n <= to; n++) {
+                        ov[n] = 'as-b' + (n === a ? ' as-lab' : '');
+                        if (perBall || n % 10 === 0 || n === to) {
+                            draw(total + (n - from));
+                            pulse(n);
+                            await this.sleep(perBall ? Math.max(250, this.ballDelay() / 2) : Math.max(300, this.delay()));
+                            if (!live()) return;
+                        }
+                    }
+                    total += d; jumps.push(d);
+                    ov[to] = 'as-b as-lab';
+                    draw(total);
+                    this.app.speak(`${from} to ${to} is ${d}`);
+                    if (i < pts.length - 2) { await next(); if (!live()) return; }
+                    else { await this.sleep(900); if (!live()) return; await this.app.afterSpeech(0); if (!live()) return; }
+                }
+
+                // 2. The whole gap is the answer: it turns green
+                for (let n = lo + 1; n <= a; n++) ov[n] = 'as-green' + (n === a ? ' as-lab' : '');
+                this.app.speak(jumps.length > 1 ? `${jumps.join(' and ')} make ${ans}. ${a} take away ${this.b} is ${ans}.` : `${a} take away ${this.b} is ${ans}.`);
+                this.finishNear(ov);
+            }
+
+            // ---- Tens and ones, step by step (Next between steps) ----
+            // Numbers are laid out as framed rows of ten (a ten is a row on this grid) plus loose ones.
+            //   38 + 25: 3 tens and 8 ones, 2 tens and 5 ones [Next] tens together: 5 tens
+            //            [Next] ones together: 8 + 5 = 13 [Next] 10 ones make a ten: 6 tens and 3 ones = 63
+            //   52 − 17: 5 tens and 2 ones [Next] not enough ones: break a ten, 4 tens and 12 ones
+            //            [Next] 12 − 7 = 5 ones [Next] 4 tens − 1 ten = 3 tens: 35
+            tensOn() { return this.effWay() === 'tens'; }
+
+            drawFrames(list) {
+                this.curFrames = list || [];
+                this.grid.querySelectorAll('.as-tframe').forEach(f => f.remove());
+                if (!this.curFrames.length) return;
+                const gr = this.grid.getBoundingClientRect();
+                if (!gr.width) return;
+                this.curFrames.forEach(f => {
+                    // f.c is the row of the ten: a frame from its first ball to its tenth
+                    const first = this.cells[(f.c - 1) * 10 + 1].getBoundingClientRect(), last = this.cells[(f.c - 1) * 10 + 10].getBoundingClientRect();
+                    const d = document.createElement('div');
+                    d.className = 'as-tframe' + (f.cls ? ' ' + f.cls : '');
+                    Object.assign(d.style, { left: `${first.left - gr.left - 3}px`, top: `${first.top - gr.top - 3}px`, width: `${last.right - first.left + 6}px`, height: `${first.height + 6}px` });
+                    this.grid.appendChild(d);
+                });
+            }
+
+            async walkTO() {
+                if (!this.tensOn() || this.stage !== 'done' || this.b <= 0 || this.quizActive) return;
+                this.stop(true);
+                const tok = ++this.tok;
+                this.counting = 'tens';
+                this.tensBtn.textContent = 'Stop';
+                this.tensBtn.classList.add('stop-button');
+                this.onesBtn.disabled = true;
+                const live = () => tok === this.tok;
+                const a = this.a, b = this.b, add = this.op === '+';
+                const Ta = Math.floor(a / 10), Oa = a % 10, Tb = Math.floor(b / 10), Ob = b % 10;
+                const at = (r, c) => (r - 1) * 10 + c;
+                const tw = n => `${n} ten${n === 1 ? '' : 's'}`;
+                const ow = n => `${n} one${n === 1 ? '' : 's'}`;
+                let ov = {}, frames = [], lines = [];
+                const clear = () => { ov = {}; for (let n = 1; n <= 100; n++) ov[n] = 'as-empty'; frames = []; };
+                // A ten is a row on this grid: col(i, ...) fills row i (columns from..to).
+                const col = (i, cls, from = 1, to = 10) => { for (let c = from; c <= to; c++) ov[at(i, c)] = cls; };
+                const flashCol = (i, from = 1, to = 10) => { for (let c = from; c <= to; c++) { const el = this.cells[at(i, c)]; if (el) { el.classList.remove('counting-animation'); void el.offsetWidth; el.classList.add('counting-animation'); } } };
+                // one step at a time: each step's line replaces the last
+                const say = (html, speech) => { lines = [html]; this.toHtml = `<span class="as-step current">${html}</span>`; if (speech) this.app.speak(speech); };
+                const to = (T, O) => T && O ? `${tw(T)} and ${ow(O)}` : T ? tw(T) : ow(O);
+                // the equation box shows the balls counted in each step
+                const A = v => `<span class="equation-part as-qa">${v}</span>`, Bq = v => `<span class="equation-part as-qb">${v}</span>`, S = v => `<span class="equation-part as-qs">${v}</span>`;
+                const eq = (...parts) => { this.stepEqHtml = parts.length ? parts.join('') : null; };
+                const PLUS = '<span>+</span>', MINUS = '<span>−</span>', EQ = '<span>=</span>';
+                this.stepEqHtml = null;
+                const draw = running => { this.render({ shown: 0, overlay: ov, frames, running, labels: {} }); this.drawFrames(frames); };
+                const next = () => new Promise(res => {
+                    const box = this.rEl.parentElement;
+                    const btn = document.createElement('button');
+                    btn.type = 'button'; btn.className = 'as-next'; btn.textContent = 'Next';
+                    const watch = setInterval(() => { if (!live()) { clearInterval(watch); btn.remove(); if (this.nextId === myNext) { this.awaitingNext = false; this.updateHint(); } res(); } }, 250);
+                    btn.addEventListener('click', e => { e.stopPropagation(); clearInterval(watch); btn.remove(); if (this.nextId === myNext) { this.awaitingNext = false; this.updateHint(); } res(); });
+                    box.appendChild(btn);
+                    const myNext = this.nextId = (this.nextId || 0) + 1;   // a cancelled step mustn't clear a newer one's hint
+                    this.awaitingNext = true; this.updateHint();
+                    btn.focus({ preventScroll: true });
+                });
+                this.showAns = false;
+                this.toHtml = '';
+
+                if (add) {
+                    // 0. Both numbers as tens and ones
+                    const c1 = Ta + Tb + 1;                       // first ones column
+                    const shared = Oa + Ob <= 10;                  // both lots of ones fit in one column
+                    const layout0 = () => {
+                        clear();
+                        for (let c = 1; c <= Ta; c++) { col(c, 'as-a'); frames.push({ c }); }
+                        for (let c = Ta + 1; c <= Ta + Tb; c++) { col(c, 'as-b'); frames.push({ c }); }
+                        if (Oa) col(c1, 'as-a', 1, Oa);
+                        if (Ob) { if (shared) col(c1, 'as-b', Oa + 1, Oa + Ob); else col(c1 + 1, 'as-b', 1, Ob); }
+                    };
+                    layout0();
+                    say(`${a} is ${to(Ta, Oa)} · ${b} is ${to(Tb, Ob)}`, `${a} is ${to(Ta, Oa)}. ${b} is ${to(Tb, Ob)}.`);
+                    draw('?');
+                    await next(); if (!live()) return;
+
+                    // 1. The tens together (they turn green)
+                    if (Ta + Tb > 0) {
+                        for (let c = 1; c <= Ta + Tb; c++) col(c, 'as-green');
+                        for (let n = 1; n <= 100; n++) if (ov[n] !== 'as-green' && ov[n] !== 'as-empty') ov[n] += ' as-dim';
+                        if (Ta && Tb) eq(A(Ta * 10), PLUS, Bq(Tb * 10), EQ, S((Ta + Tb) * 10)); else eq(Ta ? A(Ta * 10) : Bq(Tb * 10), EQ, S((Ta + Tb) * 10));
+                        say(`Tens: ${tw(Ta)} + ${tw(Tb)} = <b>${tw(Ta + Tb)}</b>`, Ta && Tb ? `${Ta * 10} and ${Tb * 10} make ${(Ta + Tb) * 10}` : `${tw(Ta + Tb)}`);
+                        draw('?');
+                        for (let c = 1; c <= Ta + Tb; c++) flashCol(c);
+                        if (Oa + Ob > 0) { await next(); if (!live()) return; }
+                    }
+
+                    // 2. The ones together
+                    let T = Ta + Tb, O = Oa + Ob;
+                    if (O > 0) {
+                        for (let n = 1; n <= 100; n++) ov[n] = ov[n].replace(' as-dim', '');
+                        if (!shared) {
+                            // b's ones fill up a's ones column; any left over start the next column
+                            col(c1 + 1, 'as-empty');
+                            col(c1, 'as-b', Oa + 1, 10);
+                            col(c1 + 1, 'as-b', 1, O - 10);
+                        }
+                        for (let c = 1; c <= T; c++) col(c, 'as-green as-dim');
+                        if (Oa && Ob) eq(A(Oa), PLUS, Bq(Ob), EQ, S(O)); else eq(Oa ? A(Oa) : Bq(Ob), EQ, S(O));
+                        say(`Ones: ${Oa} + ${Ob} = <b>${O}</b>`, `${Oa} and ${Ob} make ${O}`);
+                        draw('?');
+                        flashCol(c1); if (!shared) flashCol(c1 + 1, 1, O - 10);
+                        await this.sleep(900); if (!live()) return;
+                        await this.app.afterSpeech(0); if (!live()) return;
+                        for (let c = 1; c <= T; c++) col(c, 'as-green');
+                    }
+
+                    // 3. The total in one step: the tens and the ones (when the ones
+                    //    pass ten they fill the next row, which gets a gold frame): 20 + 11 = 31
+                    if (O > 0) { await next(); if (!live()) return; }
+                    const carry = O >= 10;
+                    if (carry) frames.push({ c: c1, cls: 'new' });
+                    for (let n = 1; n <= 100; n++) if (ov[n] !== 'as-empty') ov[n] = 'as-green';
+                    frames = [];   // the final view: no frames, just the answer in green
+                    if (T && O) eq(S(T * 10), PLUS, S(O), EQ, S(a + b)); else eq();
+                    say(`${T && O ? `${T * 10} + ${O} = <b>${a + b}</b>` : `<b>${a + b}</b>`}${carry ? ` · 10 of the ${O} ones fill the next ten` : ''} · so ${a} + ${b} = ${a + b}`,
+                        `${T && O ? `${T * 10} and ${O} make ${a + b}. ` : ''}${a} add ${b} is ${a + b}`);
+                    draw(a + b);
+                    if (carry) flashCol(c1);   // the row the extra ones filled
+                } else {
+                    // 0. The first number as tens and ones
+                    clear();
+                    for (let c = 1; c <= Ta; c++) { col(c, 'as-a'); frames.push({ c }); }
+                    if (Oa) col(Ta + 1, 'as-a', 1, Oa);
+                    say(`${a} is ${to(Ta, Oa)} · take away ${to(Tb, Ob)}`, `${a} is ${to(Ta, Oa)}. Take away ${to(Tb, Ob)}.`);
+                    draw('?');
+                    await next(); if (!live()) return;
+
+                    // 1. Not enough ones: break a ten into 10 ones
+                    let T = Ta, O = Oa;
+                    // the ones are kept in columns: [col, count] from the left
+                    let onesCols = Oa ? [[Ta + 1, Oa]] : [];
+                    if (Ob > Oa) {
+                        frames = frames.filter(f => f.c !== Ta);
+                        frames.push({ c: Ta, cls: 'broken' });
+                        T -= 1; O += 10;
+                        onesCols = [[Ta, 10]].concat(onesCols);
+                        eq(A(a), EQ, A(T * 10), PLUS, A(O));
+                        say(`Not enough ones to take away ${Ob}: break a ten into 10 ones · <b>${to(T, O)}</b>`, `There aren't enough ones to take away ${Ob}. Break a ten into 10 ones. Now it's ${to(T, O)}.`);
+                        draw('?');
+                        flashCol(Ta);
+                        await this.sleep(900); if (!live()) return;
+                        frames = frames.filter(f => f.c !== Ta);
+                        draw('?');
+                        await next(); if (!live()) return;
+                    }
+
+                    // 2. Take away the ones (from the last ball back)
+                    if (Ob > 0) {
+                        let left = Ob;
+                        for (let i = onesCols.length - 1; i >= 0 && left > 0; i--) {
+                            const [c, cnt] = onesCols[i];
+                            for (let k = cnt; k >= 1 && left > 0; k--) { ov[at(c, k)] = 'as-a as-gone'; left--; }
+                        }
+                        O -= Ob;
+                        eq(A(O + Ob), MINUS, Bq(Ob), EQ, S(O));
+                        say(`Ones: ${O + Ob} − ${Ob} = <b>${O}</b>`, `${O + Ob} take away ${Ob} leaves ${O}`);
+                        draw('?');
+                        await this.sleep(900); if (!live()) return;
+                        await this.app.afterSpeech(0); if (!live()) return;
+                        if (Tb > 0) { await next(); if (!live()) return; }
+                    }
+
+                    // 3. Take away the tens (the last columns of ten)
+                    if (Tb > 0) {
+                        for (let c = T - Tb + 1; c <= T; c++) { col(c, 'as-a as-gone'); frames = frames.filter(f => f.c !== c); }
+                        T -= Tb;
+                        eq(A((T + Tb) * 10), MINUS, Bq(Tb * 10), EQ, S(T * 10));
+                        say(`Tens: ${tw(T + Tb)} − ${tw(Tb)} = <b>${tw(T)}</b>`, `${(T + Tb) * 10} take away ${Tb * 10} leaves ${T * 10}`);
+                        draw('?');
+                        await this.sleep(900); if (!live()) return;
+                        await this.app.afterSpeech(0); if (!live()) return;
+                    }
+                    await next(); if (!live()) return;
+                    // the answer: what's left turns green
+                    for (let n = 1; n <= 100; n++) if (ov[n] === 'as-a') ov[n] = 'as-green';
+                    frames = [];   // the final view: no frames, just the answer in green
+                    if (T && O) eq(S(T * 10), PLUS, S(O), EQ, S(a - b)); else eq();
+                    say(`${to(T, O)} = <b>${a - b}</b> · so ${a} − ${b} = ${a - b}`, `${T && O ? `${T * 10} and ${O} make ${a - b}. ` : ''}${a} take away ${b} is ${a - b}`);
+                    draw(a - b);
+                }
+                this.finishNear(ov, frames.slice());
+            }
+
+            finishNear(ov, frames = []) {
+                this.overlay = Object.assign({}, ov);
+                this.overlayFrames = frames;
+                this.showAns = true;
+                this.currentStep = -1;
+                this.tok++;
+                this.counting = null;
+                this.tensBtn.textContent = 'Tens';
+                this.tensBtn.classList.remove('stop-button');
+                this.render();
+            }
+
             stop(quiet) {
                 this.tok++;
+                this.awaitingNext = false;
                 this.fast = false;
                 this.counting = null;
                 this.currentStep = -1;
@@ -6870,6 +7620,17 @@
                 this.quad = LnFrame.quad(this.board);
                 this.divRow = LnFrame.divider(this.board, 'row');
                 this.divCol = LnFrame.divider(this.board, 'col');
+                // Counting in 1s, 2s and 5s: a blue line that follows the count,
+                // under the full rows, stepping up around a part-filled row.
+                const svgNS = 'http://www.w3.org/2000/svg';
+                this.stairSvg = document.createElementNS(svgNS, 'svg');
+                this.stairSvg.setAttribute('class', 'ct-stair');
+                this.stairSvg.setAttribute('aria-hidden', 'true');
+                this.stairH = document.createElementNS(svgNS, 'path');
+                this.stairV = document.createElementNS(svgNS, 'path');
+                this.stairSvg.appendChild(this.stairH);
+                this.stairSvg.appendChild(this.stairV);
+                this.board.appendChild(this.stairSvg);
                 if (window.ResizeObserver) new ResizeObserver(() => this.placeDecor()).observe(this.board);
                 window.addEventListener('resize', () => this.placeDecor());
             }
@@ -6890,6 +7651,34 @@
                 if (d && d.fill === 'cols') { LnFrame.placeCol(this.board, this.divCol, d.k, ball); this.divRow.classList.remove('visible'); }
                 else if (d) { LnFrame.placeRow(this.board, this.divRow, d.k, ball); this.divCol.classList.remove('visible'); }
                 else { this.divRow.classList.remove('visible'); this.divCol.classList.remove('visible'); }
+                this.placeStair(ball);
+            }
+
+            // The stepped line for counting in 1s, 2s and 5s. n balls counted:
+            // a line under the full rows; if the last row is only part-filled,
+            // the line runs under those balls and steps up beside the last one.
+            placeStair(ball) {
+                const n = this.stair;
+                const gr = this.board.getBoundingClientRect();
+                if (!n || !gr.width) { this.stairSvg.classList.remove('visible'); return; }
+                const yAt = r => r <= 0 ? ball(1, 1).getBoundingClientRect().top - 5 - gr.top
+                    : r >= 10 ? ball(10, 1).getBoundingClientRect().bottom + 5 - gr.top
+                    : (ball(r, 1).getBoundingClientRect().bottom + ball(r + 1, 1).getBoundingClientRect().top) / 2 - gr.top;
+                const full = Math.floor(n / 10), part = n % 10;
+                const x0 = -9, x1 = gr.width + 9;
+                const yFull = yAt(full);
+                let dH, dV = '';
+                if (part > 0) {
+                    const yPart = yAt(full + 1);
+                    const xs = (ball(full + 1, part).getBoundingClientRect().right + ball(full + 1, part + 1).getBoundingClientRect().left) / 2 - gr.left;
+                    dH = `M ${x0} ${yPart} L ${xs} ${yPart} M ${xs} ${yFull} H ${x1}`;
+                    dV = `M ${xs} ${yPart} L ${xs} ${yFull}`;
+                } else {
+                    dH = `M ${x0} ${yFull} H ${x1}`;
+                }
+                this.stairH.setAttribute('d', dH);
+                this.stairV.setAttribute('d', dV);
+                this.stairSvg.classList.add('visible');
             }
 
             bind() {
@@ -6967,6 +7756,9 @@
                 if (o.div !== undefined) this.div = o.div;
                 else if (!o.custom && this.step === 10 && Math.floor(lit / 10) > 0) this.div = { fill, k: Math.floor(lit / 10) };
                 else this.div = null;
+                // 1s, 2s and 5s: the stepped line follows the balls counted
+                // (not during a quiz question, which draws its own picture).
+                this.stair = (!o.custom && this.step !== 10 && lit > 0) ? lit : null;
                 this.placeDecor();
                 if (!o.keepEq) this.renderEq(o.value !== undefined ? o.value : (this.dir > 0 ? lit : lit));
                 this.hint.textContent = this.quizActive ? `Counting quiz · Level ${this.level()}: ${this.tiers()[Math.min(this.tiers().length - 1, this.level())].name}` :
@@ -6984,7 +7776,7 @@
                 const stepTxt = this.step === 1 ? 'in ones' : this.step === 10 ? `in ${unit}s of ten` : `in ${this.step}s`;
                 const said = this.step === 10 && u === 0 ? `${t} ${unit}${t === 1 ? '' : 's'} of ten` : `${t} ten${t === 1 ? '' : 's'} and ${u} one${u === 1 ? '' : 's'}`;
                 this.eq.innerHTML = `<div style="width:100%;text-align:center"><span class="equation-part ct-n">${v}</span></div>` +
-                    `<div class="ln-eq-sub" style="width:100%">${v === 0 ? `Counting ${stepTxt} ${this.dir > 0 ? 'up to' : 'back from'} ${this.target}` : said}</div>`;
+                    `<div class="ln-eq-sub" style="width:100%">${v === 0 ? `Counting ${stepTxt} ${this.dir > 0 ? 'up to' : 'back from'} ${this.target}` : said + (this.step === 2 && v % 2 === 0 ? ` · ${v} is even` : '')}</div>`;
             }
 
             async count() {
@@ -7206,7 +7998,9 @@
                 this.sub = 'ten';
                 this.k = 3;        // split column (balls on the left)
                 this.r = 3;        // rectangles: split row (rows above the line)
-                this.cover = false;
+                this.cover = false;          // true when something is hidden
+                this.coverMode = 'none';     // 'none' | 'big' | 'random'
+                this.randPick = Math.random();
                 this.revealed = false;
                 this.quizActive = false;
                 this.qTok = 0;
@@ -7231,7 +8025,8 @@
                 document.querySelectorAll('[data-ln]').forEach(b => b.addEventListener('click', () => this.setSub(b.dataset.ln)));
                 document.getElementById('lnInfo').addEventListener('click', () => showPopup('lnHelpPopup'));
                 document.getElementById('lnCoverNone').addEventListener('click', () => this.setCover(false));
-                document.getElementById('lnCoverBig').addEventListener('click', () => this.setCover(true));
+                document.getElementById('lnCoverBig').addEventListener('click', () => this.setCover('big'));
+                document.getElementById('lnCoverRand').addEventListener('click', () => this.setCover('random'));
                 this.quizBtn.addEventListener('click', () => {
                     if (this.quizActive) { this.stopQuiz(); return; }
                     if (!MG.current() && window.mgOpenPlayers) { window.mgOpenPlayers(() => this.startQuiz()); return; }
@@ -7251,6 +8046,7 @@
             startDrag(kind, e) {
                 if (this.quizActive) return;
                 e.preventDefault();
+                const k0 = this.k, r0 = this.r;
                 const move = ev => {
                     const pt = ev.touches ? ev.touches[0] : ev;
                     if (!this.ballEls) return;
@@ -7272,6 +8068,11 @@
                     window.removeEventListener('pointermove', move);
                     window.removeEventListener('pointerup', up);
                     window.removeEventListener('pointercancel', up);
+                    if (this.k === k0 && this.r === r0) {   // not moved: leave things as they are
+                        this.board.querySelectorAll('.dragging').forEach(d => d.classList.remove('dragging'));
+                        return;
+                    }
+                    this.randPick = Math.random();
                     this.render();
                     this.sayCurrent();
                 };
@@ -7283,26 +8084,41 @@
             sayCurrent() {
                 const t = this.total();
                 if (this.sub === 'ten' || this.sub === 'five') this.app.speak(`${this.k} and ${t - this.k} make ${t}`);
-                else if (this.sub === 'rect') { const q = this.quads(); this.app.speak(`${q.tl} and ${q.tr} and ${q.bl} and ${q.br} make 100`); }
+                else if (this.sub === 'tens') this.app.speak(`${this.k * 10} and ${(10 - this.k) * 10} make 100`);
+                else if (this.sub === 'rect') this.explainOrSay();
             }
 
+            // Lines of 10: each ball of the line of ten becomes a whole column
+            // of ten, so the split is counted in tens (3 tens and 7 tens make 100).
             total() { return this.sub === 'five' ? 5 : 10; }
+
+            dblSay() {
+                const k = this.k, h = Math.floor(k / 2);
+                if (k % 2 === 0) return `Double ${h} is ${k}. Half of ${k} is ${h}. ${k} is even.`;
+                return h ? `${k} is double ${h} and 1 more. ${k} is odd.` : `1 is odd.`;
+            }
 
             setSub(sub) {
                 if (this.quizActive) this.stopQuiz();
                 this.sub = sub;
-                this.k = sub === 'five' ? 2 : sub === 'fiveplus' ? 7 : sub === 'rect' ? 4 : 3;
-                this.r = 3;
+                this.k = sub === 'five' ? 2 : sub === 'fiveplus' ? 7 : sub === 'rect' ? 0 : sub === 'dbl' ? 8 : 3;
+                this.r = sub === 'rect' ? 0 : 3;   // Rectangles starts as one block of 100
                 this.revealed = false;
+                this.randPick = Math.random();
                 document.querySelectorAll('[data-ln]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.ln === sub)));
                 this.render();
             }
 
-            setCover(on) {
-                this.cover = on;
+            // setCover(false | true | 'none' | 'big' | 'random')
+            setCover(mode) {
+                mode = mode === true ? 'big' : mode === false ? 'none' : mode;
+                this.coverMode = mode;
+                this.cover = mode !== 'none';
+                this.randPick = Math.random();
                 this.revealed = false;
-                document.getElementById('lnCoverNone').setAttribute('aria-pressed', String(!on));
-                document.getElementById('lnCoverBig').setAttribute('aria-pressed', String(on));
+                document.getElementById('lnCoverNone').setAttribute('aria-pressed', String(mode === 'none'));
+                document.getElementById('lnCoverBig').setAttribute('aria-pressed', String(mode === 'big'));
+                document.getElementById('lnCoverRand').setAttribute('aria-pressed', String(mode === 'random'));
                 this.render();
             }
 
@@ -7310,15 +8126,140 @@
                 if (this.quizActive) return;
                 const t = this.total();
                 if (this.sub === 'rect') { this.r = r; this.k = c; }
+                else if (this.sub === 'dbl') { if (r > 2) return; this.k = 2 * (c - 1) + r; }   // pairs, column by column
                 else this.k = Math.min(c, t);
                 this.revealed = false;
+                this.randPick = Math.random();
                 this.render();
                 if (this.sub === 'ten' || this.sub === 'five') this.app.speak(`${this.k} and ${t - this.k} make ${t}`);
+                else if (this.sub === 'tens') this.app.speak(`${this.k * 10} and ${(10 - this.k) * 10} make 100`);
                 else if (this.sub === 'fiveplus') this.app.speak(this.k >= 5 ? `${this.k} is 5 and ${this.k - 5}` : `${this.k} is 5 take away ${5 - this.k}`);
+                else if (this.sub === 'dbl') this.app.speak(this.dblSay());
+                else this.explainOrSay();
+            }
+
+            // Rectangles explain themselves after each new split (no button):
+            // unless a part is hidden on purpose, or the split is on an edge.
+            explainOrSay() {
+                const q = this.quads();
+                const split = this.r > 0 && this.r < 10 && this.k > 0 && this.k < 10;
+                if (split && !this.cover) this.explain();
+                else if (split && this.coverTarget()) this.hintHidden();
                 else {
-                    const q = this.quads();
-                    this.app.speak(`${q.tl} and ${q.tr} and ${q.bl} and ${q.br} make 100`);
+                    const vals = [q.tl, q.tr, q.bl, q.br].filter(v => v > 0);
+                    this.app.speak(vals.length > 1 ? `${vals.join(' and ')} make 100` : '100');
                 }
+            }
+
+            // Rectangles with one hidden: a clue from a rectangle beside it (or
+            // above/below it). Together they make whole lines of ten:
+            //   18 + ? = 60   "18 is beside it"   -> tap ? ->   18 + 42 = 60 (green)
+            // The clues only appear when Clue (or the ?) is tapped; then "Another
+            // clue" adds the other neighbour, then the opposite one (it ends in 2,
+            // like 12). The number is shown once all three have been given.
+            hintHidden() {
+                const hide = this.coverTarget();
+                if (!hide || this.sub !== 'rect') return;
+                this.render();
+                const tok = this.whyTok;
+                const q = this.quads(), r = this.r, k = this.k;
+                const col = { tl: 'ln-a', br: 'ln-a', tr: 'ln-b', bl: 'ln-b' };
+                const ballCol = { tl: 'a', br: 'a', tr: 'b', bl: 'b' };
+                const flip = { t: 'b', b: 't', l: 'r', r: 'l' };
+                const rowN = hide[0] + flip[hide[1]], colN = flip[hide[0]] + hide[1];
+                // Start with the easier neighbour: a whole-tens neighbour (20 + ? = 50)
+                // is easiest, then the smaller total (18 + ? = 60 before 28 + ? = 70).
+                const hard = key => (q[key] % 10 ? 10 : 0) + (q[key] + q[hide]) / 10;
+                const nb = hard(colN) < hard(rowN) ? colN : rowN;
+                const where = nb === rowN ? 'beside it' : (nb[0] === 't' ? 'above it' : 'below it');
+                const sum = q[nb] + q[hide];
+                const each = f => { for (let rr = 1; rr <= 10; rr++) for (let cc = 1; cc <= 10; cc++) f(this.ballEls[rr][cc], this.quadOf(rr, cc)); };
+                const nbHtml = `<span class="equation-part ${col[nb]}">${this.unitsHtml(q[nb])}</span>`;
+                // The three clues, in order: this neighbour, the other neighbour, the opposite one.
+                const nb2 = nb === rowN ? colN : rowN;
+                const opp = flip[hide[0]] + flip[hide[1]];
+                const whereOf = key => key === rowN ? 'beside it' : (key[0] === 't' ? 'above it' : 'below it');
+                const num = key => `<b class="${col[key]}">${q[key]}</b>`;
+                const clues = [
+                    { key: nb, html: `${num(nb)} is ${where}. Together they make ${sum}.`, say: `${q[nb]} and what make ${sum}?` },
+                    { key: nb2, html: `${num(nb2)} is ${whereOf(nb2)}. Together they make ${q[nb2] + q[hide]}.`, say: `${q[nb2]} is ${whereOf(nb2)}. Together they make ${q[nb2] + q[hide]}.` },
+                    { key: opp, html: `It ends in ${q[hide] % 10}, like ${num(opp)} opposite it.`, say: `It ends in ${q[hide] % 10}, like ${q[opp]} opposite it.` }
+                ];
+                // No clue at first: the whole split with a ? and a Clue button.
+                // Clue (or tapping the ?) gives the next clue; the hidden number
+                // is only shown once all three clues have been given.
+                let shown = 0;
+                const qHtml = `<span class="equation-part ${col[hide]} hidden ln-tapq" id="lnHintQ" role="button" tabindex="0" aria-label="Hidden number: tap for a clue">?</span>`;
+                const showClues = () => {
+                    const lit = shown ? [clues[shown - 1].key] : [];   // only the clue's rectangle
+                    each((el, kk) => { if (kk !== hide) el.classList.toggle('why-off', shown > 0 && !lit.includes(kk)); });
+                    const added = clues[shown - 1];
+                    if (added) each((el, kk) => { if (kk === added.key) { el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash'); } });
+                    const pairClue = shown > 0 && clues[shown - 1].key !== opp;
+                    const cnb = pairClue ? clues[shown - 1].key : null;
+                    const eqLine = !pairClue
+                        ? ['tl', 'tr', 'bl', 'br'].map(key => key === hide ? qHtml : `<span class="equation-part ${col[key]}">${q[key]}</span>`).join('<span>+</span>') + `<span>=</span><span class="equation-part ln-t">100</span>`
+                        : `<span class="equation-part ${col[cnb]}">${this.unitsHtml(q[cnb])}</span><span>+</span>${qHtml}<span>=</span><span class="equation-part ln-t">${q[cnb] + q[hide]}</span>`;
+                    // one clue at a time: each new clue replaces the last
+                    const cur = clues[shown - 1];
+                    const list = cur ? `<div class="ln-eq-sub ln-clue-line" style="width:100%">💡 ${cur.html}</div>` : '';
+                    const done = shown >= clues.length;
+                    const btn = `<button type="button" class="ln-why ln-more" id="lnMoreClue">${done ? 'Show the number' : shown === 0 ? 'Clue' : 'Another clue'}</button>`;
+                    this.eq.innerHTML = `<div class="ln-why-eq">${eqLine}</div>${list}<div class="ln-eq-sub" style="width:100%">${btn}</div>`;
+                    const step = e => { if (e) e.stopPropagation(); if (tok !== this.whyTok) return; if (done) { reveal(); return; } shown++; showClues(); this.app.speak(clues[shown - 1].say); };
+                    document.getElementById('lnMoreClue').addEventListener('click', step);
+                    const qEl = document.getElementById('lnHintQ');
+                    qEl.addEventListener('click', step);
+                    qEl.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); step(e); } });
+                    this.addAnotherBtn();
+                };
+                const reveal = () => {
+                    if (tok !== this.whyTok) return;
+                    this.revealed = true;
+                    this.render({ why: true });
+                    const tok2 = ++this.whyTok;
+                    each((el, kk) => {
+                        if (kk !== nb && kk !== hide) { el.classList.add('why-off'); return; }
+                        el.classList.remove(ballCol[kk]); el.classList.add('n');
+                        el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash');
+                    });
+                    this.eq.innerHTML = `<div class="ln-why-eq">${nbHtml}<span>+</span><span class="equation-part ${col[hide]} why-new">${this.unitsHtml(q[hide])}</span><span>=</span><span class="equation-part ln-t">${sum}</span></div>` +
+                        `<div class="ln-eq-sub" style="width:100%">${q[nb]} and ${q[hide]} make ${sum}. Try another: drag a line or tap a ball.</div>`;
+                    this.app.speak(`${q[nb]} and ${q[hide]} make ${sum}`);
+                    this.addAnotherBtn();
+                    void tok2;
+                };
+                showClues();
+                const vals = ['tl', 'tr', 'bl', 'br'].filter(key => key !== hide).map(key => q[key]);
+                this.app.speak(`${vals.join(' and ')} and what make 100?`);
+            }
+
+            // Hide: Random gets an "Another" button beside the equation: a new
+            // random split, with a new random part hidden.
+            addAnotherBtn() {
+                if (this.coverMode !== 'random' || this.quizActive || this.sub === 'fiveplus' || this.sub === 'dbl') return;
+                const row = this.eq.firstElementChild;
+                if (!row || row.querySelector('.ln-another')) return;
+                const btn = document.createElement('button');
+                btn.type = 'button'; btn.className = 'ln-why ln-another'; btn.textContent = 'Another';
+                btn.setAttribute('aria-label', 'Another random example');
+                btn.addEventListener('click', e => { e.stopPropagation(); this.randomExample(); });
+                row.appendChild(btn);
+            }
+
+            randomExample() {
+                if (this.quizActive) return;
+                const pick = (lo, hi, not) => { let v; do { v = lo + Math.floor(Math.random() * (hi - lo + 1)); } while (v === not && hi > lo); return v; };
+                if (this.sub === 'rect') {
+                    const k0 = this.k, r0 = this.r;
+                    do { this.k = pick(1, 9); this.r = pick(1, 9); } while (this.k === k0 && this.r === r0);
+                } else {
+                    this.k = pick(1, this.total() - 1, this.k);
+                }
+                this.revealed = false;
+                this.randPick = Math.random();
+                this.render();
+                this.sayCurrent();
             }
 
             // The four rectangles made by the two lines (rectangles view).
@@ -7329,25 +8270,34 @@
             // What is covered: in lines 'left' | 'right'; in rectangles 'tl' | 'tr' | 'bl' | 'br'.
             coverTarget(o) {
                 if (o && o.coverSide !== undefined) return o.coverSide;
-                if (!this.cover || this.revealed || this.sub === 'fiveplus') return null;
+                if (!this.cover || this.revealed || this.sub === 'fiveplus' || this.sub === 'dbl') return null;
+                const rnd = this.coverMode === 'random';
                 if (this.sub === 'rect') {
                     const q = this.quads();
+                    if (rnd) {
+                        // any rectangle that exists, chosen afresh for each new split
+                        const keys = ['tl', 'tr', 'bl', 'br'].filter(key => q[key] > 0);
+                        if (keys.length > 1) return keys[Math.floor(this.randPick * keys.length)];
+                    }
                     return ['br', 'bl', 'tr', 'tl'].reduce((best, key) => (q[key] > q[best] ? key : best), 'br');
                 }
                 const t = this.total();
+                if (rnd) return this.k > 0 && this.k < t ? (this.randPick < 0.5 ? 'left' : 'right') : null;
                 return this.k > t - this.k ? 'left' : (t - this.k > this.k ? 'right' : null);
             }
 
             quadOf(r, c) { return (r <= this.r ? 't' : 'b') + (c <= this.k ? 'l' : 'r'); }
 
             render(o = {}) {
+                // Any redraw (a tap, a drag, another view) ends a "Why?" walkthrough.
+                if (!o.why) { this.whyTok = (this.whyTok || 0) + 1; this.whySpec = null; }
                 const sub = this.sub, t = this.total(), k = this.k;
                 const hide = this.coverTarget(o);
                 const b = this.board;
                 b.innerHTML = '';
                 const q = this.quads();
                 const corner = { tl: [this.r, k], tr: [this.r, 10], bl: [10, k], br: [10, 10] };
-                const quadCls = { tl: 'a', tr: 'b', bl: 'g', br: 'n' };
+                const quadCls = { tl: 'a', tr: 'b', bl: 'b', br: 'a' };   // diagonal rectangles share a colour
                 const hid = !this.app.showHeaderNumbers;
                 this.ballEls = [];
                 const top = document.createElement('div');
@@ -7364,7 +8314,7 @@
                     const row = document.createElement('div');
                     row.className = 'ln-row';
                     const rh = LnFrame.hdr(r, hid);
-                    if (sub !== 'rect' && r > 1) rh.classList.add('ln-h-dim');
+                    if (sub !== 'rect' && sub !== 'tens' && r > (sub === 'dbl' ? 2 : 1)) rh.classList.add('ln-h-dim');
                     row.appendChild(rh);
                     this.ballEls[r] = [];
                     for (let c = 1; c <= 10; c++) {
@@ -7376,6 +8326,27 @@
                             cls += ' ' + quadCls[key];
                             if (hide === key) cls = 'ln-ball cover';
                             else if (corner[key][0] === r && corner[key][1] === c && q[key] > 0) label = q[key];
+                        } else if (sub === 'tens') {
+                            // Whole columns: blue up to the line, red after it. The
+                            // bottom ball of each side's last column shows its tens.
+                            const left = c <= k;
+                            cls += left ? ' a' : ' b';
+                            if ((hide === 'left' && left) || (hide === 'right' && !left)) cls = 'ln-ball cover';
+                            else if (r === 10) {
+                                if (c === k && k > 0) label = k * 10;
+                                if (c === 10 && k < 10) label = (10 - k) * 10;
+                            }
+                        } else if (sub === 'dbl') {
+                            // Doubles: a number fills the top two rows in pairs, column by column.
+                            // Top row blue, bottom row red; a ball with no partner (odd) is gold.
+                            const n = k, i = 2 * (c - 1) + r;
+                            if (r > 2) cls += ' dim';
+                            else if (i <= n) {
+                                const lone = n % 2 === 1 && i === n;
+                                cls += lone ? ' g' : r === 1 ? ' a' : ' b';
+                                if (hide === 'bottom' && r === 2) cls = 'ln-ball cover';
+                                else if (!lone && c === Math.floor(n / 2)) label = Math.floor(n / 2);
+                            }
                         } else if (r > 1 || c > t) {
                             cls += ' dim';
                         } else if (sub === 'fiveplus') {
@@ -7395,7 +8366,7 @@
                         ball.className = cls;
                         if (label !== '') ball.textContent = label;
                         ball.setAttribute('role', 'button');
-                        ball.setAttribute('aria-label', sub === 'rect' ? `Split after row ${r}, column ${c}` : `Split after ${c}`);
+                        ball.setAttribute('aria-label', sub === 'rect' ? `Split after row ${r}, column ${c}` : sub === 'tens' ? `Split after column ${c}` : sub === 'dbl' ? `${2 * (c - 1) + r} in pairs` : `Split after ${c}`);
                         ball.addEventListener('click', () => this.tap(r, c));
                         this.ballEls[r][c] = ball;
                         row.appendChild(ball);
@@ -7409,7 +8380,7 @@
                 b.appendChild(tail);
                 this.quadLines = LnFrame.quad(b);
                 this.divV = null; this.divH = null;
-                if (sub !== 'fiveplus') {
+                if (sub !== 'fiveplus' && sub !== 'dbl') {
                     this.divV = LnFrame.divider(b, 'col');
                     this.divV.addEventListener('pointerdown', e => this.startDrag('col', e));
                     if (sub === 'rect') {
@@ -7419,10 +8390,10 @@
                 }
                 this.placeDividers();
                 if (!o.keepEq) this.renderEq(hide);
-                this.hint.textContent = this.quizActive ? `Quick look · Level ${Math.floor(this.score / 10)}` :
-                    (sub === 'rect' ? 'Tap a ball to split the grid into four rectangles.' : sub === 'fiveplus' ? 'Tap a ball on the top line to make a number.' : 'Tap a ball on the top line to split it.');
+                this.hint.textContent = this.quizActive ? `${sub === 'rect' ? 'Clue quiz' : 'Quick look'} · Level ${Math.floor(this.score / 10)}` :
+                    (sub === 'rect' ? 'Drag the lines, or tap a ball, to split the grid into rectangles.' : sub === 'tens' ? 'Tap any ball to split the grid into columns of ten.' : sub === 'fiveplus' ? 'Tap a ball on the top line to make a number.' : sub === 'dbl' ? 'Tap a ball in the top two rows to make a number in pairs.' : 'Tap a ball on the top line to split it.');
                 this.bar.style.width = `${(this.score % 10) * 10}%`;
-                this.quizBtn.textContent = this.quizActive ? 'Stop quiz' : 'Quick look quiz';
+                this.quizBtn.textContent = this.quizActive ? 'Stop quiz' : (sub === 'rect' ? 'Clue quiz' : 'Quick look quiz');
                 this.quizBtn.classList.toggle('active', this.quizActive);
             }
 
@@ -7432,16 +8403,187 @@
                 if (this.quadLines) LnFrame.placeQuad(this.board, this.quadLines, ball);
                 if (this.divV) LnFrame.placeCol(this.board, this.divV, Math.min(this.k, this.sub === 'rect' ? 10 : this.total()), ball);
                 if (this.divH) LnFrame.placeRow(this.board, this.divH, this.r, ball);
+                if (this.whySpec && this.placeWhyPanel) this.placeWhyPanel();
             }
 
             part(cls, val, hidden, id) {
                 return `<span class="equation-part ${cls}${hidden ? ' hidden' : ''}"${id ? ` id="${id}"` : ''}>${hidden ? '?' : val}</span>`;
             }
 
+            // A number with its ones digit marked (underlined, or coloured with
+            // mark 'p1' / 'p2' to pair up digits in the "Why?" walkthrough).
+            unitsHtml(v, mark) {
+                const u = `<span class="ln-u${mark ? ' ' + mark : ''}">${v % 10}</span>`;
+                return v >= 10 ? `${Math.floor(v / 10)}${u}` : u;
+            }
+            partU(cls, val, hidden, id, mark) {
+                return `<span class="equation-part ${cls}${hidden ? ' hidden' : ''}"${id ? ` id="${id}"` : ''}>${hidden ? '?' : this.unitsHtml(val, mark)}</span>`;
+            }
+
+            // ---- Rectangles: "Why do opposite rectangles end the same?" ----
+            // Three short steps on the grid. The top two rectangles are whole
+            // lines of ten, so their ones make 10; so are the left two (as
+            // columns). So the rectangles on each diagonal share a partner,
+            // and end in the same digit.
+            // After each new split, the equation box goes round the four pairs,
+            // one at a time, keeping one rectangle in place each step
+            // (first the whole split, 12 + 18 + 28 + 42 = 100, then Next):
+            //   12 + 18 = 30   top                                   [Next]
+            //   12 + 28 = 40   left   (top left stays)               [Next]
+            //   28 + 42 = 70   bottom (bottom left stays)            [Next]
+            //   42 + 18 = 60   right  (bottom right stays)           [Next]
+            // Then one line at a time, each replacing the last:
+            //   12 + 18 = 30  [Next]  28 + 42 = 70  [Next]  30 + 70 = 100  [Next]  40 + 60 = 100
+            // Whenever a (green) sum appears, the rectangles it adds up turn
+            // green on the grid; it ends with all 100 balls green.
+            // A new split on the grid at any time starts again.
+            async explain() {
+                if (this.sub !== 'rect' || this.quizActive) return;
+                const r = this.r, k = this.k;
+                if (r < 1 || r > 9 || k < 1 || k > 9) return;
+                this.revealed = true;
+                this.render({ why: true });
+                const tok = ++this.whyTok;
+                const app = this.app;
+                const live = () => tok === this.whyTok && this.sub === 'rect' && !this.quizActive;
+                const q = this.quads();
+                const col = { tl: 'ln-a', br: 'ln-a', tr: 'ln-b', bl: 'ln-b' };   // diagonals share a colour
+                const ballCol = { tl: 'a', br: 'a', tr: 'b', bl: 'b' };
+                const each = f => { for (let rr = 1; rr <= 10; rr++) for (let cc = 1; cc <= 10; cc++) f(this.ballEls[rr][cc], rr, cc); };
+                // The number on each rectangle's corner ball: hidden at the start
+                // (except the first), shown when that rectangle joins the sequence.
+                const cornerEl = key => { const [rr, cc] = { tl: [r, k], tr: [r, 10], bl: [10, k], br: [10, 10] }[key]; return this.ballEls[rr] && this.ballEls[rr][cc]; };
+                const showNum = key => { const el = cornerEl(key); if (el) el.textContent = q[key]; };
+                let lit = [];
+                const light = key => {
+                    if (key) { lit.push(key); showNum(key); }
+                    each((el, rr, cc) => {
+                        const kk = this.quadOf(rr, cc);
+                        el.classList.toggle('why-off', !lit.includes(kk));
+                        if (kk === key) { el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash'); }
+                    });
+                };
+                // Turn these rectangles green (the rest back to blue and red).
+                let greenNow = [];
+                const green = keys => {
+                    each((el, rr, cc) => {
+                        const kk = this.quadOf(rr, cc), g = keys.includes(kk);
+                        el.classList.toggle('n', g);
+                        el.classList.toggle(ballCol[kk], !g);
+                        if (g && !greenNow.includes(kk)) { el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash'); }
+                    });
+                    greenNow = keys.slice();
+                };
+                let lines = [];
+                const draw = () => {
+                    this.eq.innerHTML = lines.map(h => `<div class="ln-why-eq">${h}</div>`).join('');
+                    const news = this.eq.querySelectorAll('.why-new');
+                    news.forEach((el, j) => { if (j < news.length - 1) el.classList.remove('why-new'); });
+                };
+                const amount = (key, fresh = true) => `<span class="equation-part ${col[key]}${fresh ? ' why-new' : ''}">${this.unitsHtml(q[key])}</span>`;
+                const total = v => `<span class="equation-part ln-t why-new">${v}</span>`;
+                const settle = h => h.replace(/ why-new/g, '');
+                // Wait for the Next button (or a new split, which ends this run)
+                const next = () => new Promise(res => {
+                    const row = this.eq.querySelector('.ln-why-eq:last-child');
+                    if (!row) return res();
+                    const btn = document.createElement('button');
+                    btn.type = 'button'; btn.className = 'ln-why ln-next'; btn.textContent = 'Next';
+                    const watch = setInterval(() => { if (!live()) { clearInterval(watch); res(); } }, 250);
+                    btn.addEventListener('click', e => { e.stopPropagation(); clearInterval(watch); res(); });
+                    row.appendChild(btn);
+                    btn.focus({ preventScroll: true });
+                });
+                const wait = async ms => { await this.sleep(ms); return live(); };
+
+                // 0. First the whole split: all four rectangles in colour, with only
+                //    the first addend shown (12 + ? + ? + ? = 100), then Next.
+                lines = [['tl', 'tr', 'bl', 'br'].map((key, i) => i === 0 ? amount(key, false) : this.part(col[key], q[key], true)).join('<span>+</span>') + `<span>=</span><span class="equation-part ln-t">100</span>`];
+                ['tr', 'bl', 'br'].forEach(key => { const el = cornerEl(key); if (el) el.textContent = ''; });
+                draw();
+                await next(); if (!live()) return;
+
+                // 1. Round the four pairs. From the second pair on, the first
+                //    rectangle is the one that stays in place.
+                const steps = [['tl', 'tr'], ['tl', 'bl'], ['bl', 'br'], ['br', 'tr']];
+                for (let i = 0; i < steps.length; i++) {
+                    const [a, b] = steps[i];
+                    const sum = q[a] + q[b];
+                    green([]);
+                    if (i === 0) {
+                        lit = []; light(null);
+                        lines = [amount(a)]; light(a); draw();
+                        if (!await wait(750)) return;
+                    } else {
+                        lit = [a]; light(null);               // the kept one stays lit, the other fades
+                        lines = [amount(a, false)]; draw();
+                        if (!await wait(450)) return;
+                    }
+                    lines[0] += `<span>+</span>${amount(b)}`; light(b); draw();
+                    if (!await wait(750)) return;
+                    lines[0] = settle(lines[0]) + `<span>=</span>${total(sum)}`; draw();
+                    green([a, b]);
+                    app.speak(`${q[a]} and ${q[b]} make ${sum}`);
+                    await next(); if (!live()) return;
+                }
+
+                // 2. The top pair, the bottom pair, then the two sums, one line at
+                //    a time, each replacing the last.
+                const pairs = [['tl', 'tr'], ['bl', 'br']];
+                const sums = [];
+                for (const [a, b] of pairs) {
+                    const sum = q[a] + q[b];
+                    sums.push(sum);
+                    green([]);
+                    lit = []; light(null);
+                    lines = [amount(a)]; light(a); draw();
+                    if (!await wait(650)) return;
+                    lines[0] += `<span>+</span>${amount(b)}`; light(b); draw();
+                    if (!await wait(650)) return;
+                    lines[0] = settle(lines[0]) + `<span>=</span>${total(sum)}`; draw();
+                    green([a, b]);
+                    app.speak(`${q[a]} and ${q[b]} make ${sum}`);
+                    await next(); if (!live()) return;
+                }
+                // 30 + 70 = 100: each sum is green, so its half of the grid is green
+                green([]);
+                lit = []; light(null);
+                lines = [total(sums[0])]; light('tl'); light('tr'); green(['tl', 'tr']); draw();
+                if (!await wait(650)) return;
+                lines[0] = settle(lines[0]) + `<span>+</span>${total(sums[1])}`; light('bl'); light('br'); green(['tl', 'tr', 'bl', 'br']); draw();
+                if (!await wait(650)) return;
+                lines[0] = settle(lines[0]) + `<span>=</span><span class="equation-part ln-t ln-hundred why-new">100</span>`; draw();
+                app.speak(`${sums[0]} and ${sums[1]} make 100`);
+                await next(); if (!live()) return;
+                // 40 + 60 = 100: the two column totals (left half, then right half)
+                const cols = [q.tl + q.bl, q.tr + q.br];
+                green([]);
+                lit = []; light(null);
+                lines = [total(cols[0])]; light('tl'); light('bl'); green(['tl', 'bl']); draw();
+                if (!await wait(650)) return;
+                lines[0] = settle(lines[0]) + `<span>+</span>${total(cols[1])}`; light('tr'); light('br'); green(['tl', 'tr', 'bl', 'br']); draw();
+                if (!await wait(650)) return;
+                lines[0] = settle(lines[0]) + `<span>=</span><span class="equation-part ln-t ln-hundred why-new">100</span>`; draw();
+                app.speak(`${cols[0]} and ${cols[1]} make 100`);
+                if (!await wait(900)) return;
+                await app.afterSpeech(0); if (!live()) return;
+                this.eq.insertAdjacentHTML('beforeend', '<div class="ln-eq-sub ln-again" style="width:100%">Try another: drag a line or tap a ball.</div>');
+                app.speak('Try another one.');
+                // 40 + 60 = 100 stays on screen, with all 100 balls green, until the next split.
+            }
+
             renderEq(hide) {
                 const sub = this.sub, t = this.total(), k = this.k;
                 let html = '', subline = '';
-                if (sub === 'fiveplus') {
+                if (sub === 'dbl') {
+                    // 8 = 4 + 4 (double 4, half of 8, even); 7 = 3 + 3 + 1 (odd)
+                    const h = Math.floor(k / 2), odd = k % 2 === 1;
+                    const coverB = hide === 'bottom';
+                    if (h === 0) html = `${this.part('ln-g', 1)}`;
+                    else html = `${this.part('ln-a', h)}<span>+</span>${this.part('ln-b', h, coverB)}` + (odd ? `<span>+</span>${this.part('ln-g', 1)}` : '') + `<span>=</span>${this.part('ln-t', k, coverB)}`;
+                    subline = coverB ? '' : odd ? `${k} is odd: one ball has no partner` + (h ? ` · ${k} is double ${h} and 1 more` : '')
+                        : `Double ${h} is ${k} · half of ${k} is ${h} · ${k} is even: every ball has a partner`;
+                } else if (sub === 'fiveplus') {
                     if (k >= 5) {
                         html = `${this.part('ln-t', k)}<span>=</span>${this.part('ln-a', 5)}<span>+</span>${this.part('ln-g', k - 5)}`;
                         subline = k < 10 ? `and ${10 - k} more make 10` : 'two fives make 10';
@@ -7451,14 +8593,31 @@
                     }
                 } else if (sub === 'rect') {
                     const q = this.quads();
-                    html = `${this.part('ln-a', q.tl, hide === 'tl', 'lnTL')}<span>+</span>${this.part('ln-b', q.tr, hide === 'tr', 'lnTR')}<span>+</span>${this.part('ln-g', q.bl, hide === 'bl', 'lnBL')}<span>+</span>${this.part('ln-n', q.br, hide === 'br', 'lnBR')}<span>=</span>${this.part('ln-t', 100)}`;
-                    if (this.r > 0 && this.r < 10 && k > 0 && k < 10) {
+                    const split = this.r > 0 && this.r < 10 && k > 0 && k < 10;
+                    // With a real split, the ones digits are underlined: they are what
+                    // pair up to make 10 (and what the diagonals share).
+                    const P = split ? (c, v, h, id) => this.partU(c, v, h, id) : (c, v, h, id) => this.part(c, v, h, id);
+                    // Only the rectangles that exist: one line makes two, no line makes one.
+                    const parts = [['ln-a', 'tl', 'lnTL'], ['ln-b', 'tr', 'lnTR'], ['ln-b', 'bl', 'lnBL'], ['ln-a', 'br', 'lnBR']]
+                        .filter(([, key]) => q[key] > 0)
+                        .map(([c, key, id]) => P(c, q[key], hide === key, id));
+                    html = parts.length > 1 ? `${parts.join('<span>+</span>')}<span>=</span>${this.part('ln-t', 100)}` : this.part('ln-t', 100);
+                    if (split) {
                         const d1 = q.tl % 10, d2 = q.tr % 10;
                         const show = (a, bKey, bVal) => hide === bKey ? `${a} and ?` : `${a} and ${bVal}`;
                         subline = `Diagonals end the same: ${show(hide === 'tl' ? '?' : q.tl, 'br', q.br)} end in ${d1} · ${show(hide === 'tr' ? '?' : q.tr, 'bl', q.bl)} end in ${d2}`;
                     } else {
-                        subline = `${this.r} row${this.r === 1 ? '' : 's'} above the line, ${k} column${k === 1 ? '' : 's'} left of the line`;
+                        const hasCol = k > 0 && k < 10, hasRow = this.r > 0 && this.r < 10;
+                        subline = !hasCol && !hasRow ? 'Drag a line, or tap a ball, to split the grid.'
+                            : 'Now drag the other line to make four rectangles.';
                     }
+                } else if (sub === 'tens') {
+                    html = `${this.part('ln-a', k * 10, hide === 'left', 'lnL')}<span>+</span>${this.part('ln-b', (10 - k) * 10, hide === 'right', 'lnR')}<span>=</span>${this.part('ln-t', 100)}`;
+                    const tw = n => (n === 1 ? 'ten' : 'tens');
+                    const L = hide === 'left' ? '?' : k, R = hide === 'right' ? '?' : 10 - k;
+                    subline = hide
+                        ? `${L} ${L === '?' ? 'tens' : tw(L)} and ${R} ${R === '?' ? 'tens' : tw(R)} make 10 tens`
+                        : `${k} ${tw(k)} and ${10 - k} ${tw(10 - k)} make 10 tens, just as ${k} + ${10 - k} = 10`;
                 } else {
                     html = `${this.part('ln-a', k, hide === 'left', 'lnL')}<span>+</span>${this.part('ln-b', t - k, hide === 'right', 'lnR')}<span>=</span>${this.part('ln-t', t)}`;
                 }
@@ -7467,6 +8626,9 @@
                     if (this.quizActive) return;
                     this.revealed = true; this.render();
                 }));
+                const why = this.eq.querySelector('#lnWhy');
+                if (why) why.addEventListener('click', e => { e.stopPropagation(); this.explain(); });
+                this.addAnotherBtn();
             }
 
             // ---- Quick look quiz ----
@@ -7496,26 +8658,58 @@
                     return { sub, k: n, flash, ask, answer: ask === 'total' ? n : 10 - n,
                         text: ask === 'total' ? 'How many balls?' : 'How many more make 10?', q: ask === 'total' ? `5 + ${n - 5}` : `${n} + ? = 10`, lo: 0, hi: 10 };
                 }
+                if (sub === 'dbl') {
+                    let h = this.rand(1, 10);
+                    if (this.prevK === 2 * h) h = h % 10 + 1;
+                    return { sub, k: 2 * h, flash, answer: 2 * h, coverSide: 'bottom',
+                        text: `What is double ${h}?`, q: `${h} + ${h}`, lo: 1, hi: 20 };
+                }
                 if (sub === 'rect') {
                     const r = this.rand(1, 9), k = this.rand(1, 9);
                     const q = this.quads(r, k);
                     const keys = ['tl', 'tr', 'bl', 'br'];
-                    const hideKey = keys.reduce((best, key) => (q[key] > q[best] ? key : best), 'br');
+                    // Hide: Random hides any rectangle; otherwise the biggest
+                    const hideKey = this.coverMode === 'random' ? keys[this.rand(0, 3)]
+                        : keys.reduce((best, key) => (q[key] > q[best] ? key : best), 'br');
                     const shown = keys.filter(x => x !== hideKey).map(x => q[x]);
-                    return { sub, k, r, flash: flash + 800, answer: q[hideKey], coverSide: hideKey,
+                    // A clue from one of the visible rectangles, instead of a quick look:
+                    // beside it (together they make whole lines of ten) or opposite it
+                    // (diagonal rectangles end in the same digit).
+                    const flip = { t: 'b', b: 't', l: 'r', r: 'l' };
+                    const rowN = hideKey[0] + flip[hideKey[1]], colN = flip[hideKey[0]] + hideKey[1], opp = flip[hideKey[0]] + flip[hideKey[1]];
+                    const kind = ['row', 'col', 'opp'][this.rand(0, 2)];
+                    const ans = q[hideKey];
+                    let clueKey, clue, say;
+                    if (kind === 'opp') {
+                        clueKey = opp;
+                        clue = `It ends in ${ans % 10}, like ${q[opp]} opposite it.`;
+                        say = `It ends in ${ans % 10}, like ${q[opp]} opposite it.`;
+                    } else {
+                        clueKey = kind === 'row' ? rowN : colN;
+                        const tot = q[clueKey] + ans;
+                        clue = `It goes with ${q[clueKey]} ${kind === 'row' ? 'beside' : (clueKey[0] === 't' ? 'above' : 'below')} it to make ${tot}.`;
+                        say = clue;
+                    }
+                    return { sub, k, r, answer: ans, coverSide: hideKey, clueKey, clue, say,
                         text: 'How many balls are in the hidden rectangle?', q: `${shown.join(' + ')} + ? = 100`, lo: 1, hi: 99, rect: true };
                 }
                 const t = sub === 'five' ? 5 : 10;
                 let k = this.rand(1, t - 1);
                 if (this.prevK === k) k = (k % (t - 1)) + 1;
                 const hideLeft = Math.random() < 0.5;
+                if (sub === 'tens') {
+                    // Columns of ten: the same bonds to 10, counted in tens.
+                    const a = k * 10, b = (10 - k) * 10;
+                    return { sub, k, flash: flash + 400, answer: hideLeft ? a : b, coverSide: hideLeft ? 'left' : 'right',
+                        text: 'How many are hidden?', q: hideLeft ? `? + ${b} = 100` : `${a} + ? = 100`, lo: 0, hi: 100, tens: true };
+                }
                 return { sub, k, flash, answer: hideLeft ? k : t - k, coverSide: hideLeft ? 'left' : 'right',
                     text: 'How many are hidden?', q: hideLeft ? `? + ${t - k} = ${t}` : `${k} + ? = ${t}`, lo: 0, hi: t };
             }
 
             options(q) {
                 const c = q.answer, set = new Set();
-                const deltas = q.rect ? [10, -10, 1, -1, 2, -2, 20] : [1, -1, 2, -2, 3];
+                const deltas = q.rect ? [10, -10, 1, -1, 2, -2, 20] : q.tens ? [10, -10, 20, -20, 30] : [1, -1, 2, -2, 3];
                 deltas.forEach(d => { const v = c + d; if (v >= q.lo && v <= q.hi) set.add(v); });
                 const opts = this.shuffle([...set]).slice(0, 3);
                 return this.shuffle([c, ...opts]);
@@ -7527,17 +8721,28 @@
                 const q = this.makeQ();
                 this.q = q; this.prevK = q.k;
                 this.k = q.k; if (q.r) this.r = q.r;
-                // 1. a quick look at everything
-                this.render({ coverSide: null });
-                this.eq.innerHTML = '<div class="ln-eq-sub" style="width:100%;font-size:1.3rem">Look…</div>';
-                await this.sleep(q.flash);
-                if (tok !== this.qTok) return;
+                // 1. a quick look at everything (Rectangles gives a clue instead)
+                if (!q.rect) {
+                    this.render({ coverSide: null });
+                    this.eq.innerHTML = '<div class="ln-eq-sub" style="width:100%;font-size:1.3rem">Look…</div>';
+                    await this.sleep(q.flash);
+                    if (tok !== this.qTok) return;
+                }
                 // 2. hide part and ask
                 if (q.sub === 'fiveplus') {
                     this.render({ coverSide: null, keepEq: true });
                     this.board.querySelectorAll('.ln-ball.a, .ln-ball.g').forEach(x => { x.className = 'ln-ball cover'; x.textContent = ''; });
                 } else this.render({ coverSide: q.coverSide, keepEq: true });
-                this.eq.innerHTML = `<div class="ln-eq-sub" style="width:100%;font-size:1.05rem;color:#2d3748">${q.text}</div><div class="equation-part quiz-inline-host" id="lnOpts"></div>`;
+                const clueCls = { tl: 'ln-a', br: 'ln-a', tr: 'ln-b', bl: 'ln-b' };
+                const clueHtml = q.rect ? `<div class="ln-eq-sub ln-clue" style="width:100%">💡 ${q.clue.replace(String(this.quads()[q.clueKey]), `<b class="${clueCls[q.clueKey]}">${this.quads()[q.clueKey]}</b>`)}</div>` : '';
+                this.eq.innerHTML = `<div class="ln-eq-sub" style="width:100%;font-size:1.05rem;color:#2d3748">${q.text}</div>${clueHtml}<div class="equation-part quiz-inline-host" id="lnOpts"></div>`;
+                if (q.rect) {
+                    // fade the two rectangles the clue doesn't use
+                    for (let rr = 1; rr <= 10; rr++) for (let cc = 1; cc <= 10; cc++) {
+                        const kk = this.quadOf(rr, cc), el = this.ballEls[rr] && this.ballEls[rr][cc];
+                        if (el && kk !== q.clueKey && kk !== q.coverSide) el.classList.add('why-off');
+                    }
+                }
                 const host = document.getElementById('lnOpts');
                 this.qStart = Date.now();
                 this.options(q).forEach(v => {
@@ -7546,7 +8751,7 @@
                     btn.addEventListener('click', () => this.answer(v, btn, host, tok));
                     host.appendChild(btn);
                 });
-                this.app.speak(q.text);
+                this.app.speak(q.rect ? `${q.text} Clue: ${q.say}` : q.text);
             }
 
             async answer(v, btn, host, tok) {
@@ -8040,7 +9245,7 @@
                 },
                 {
                     title: 'Adding',
-                    text: 'In + mode, tap where you start, then where you land. 38 + 7 jumps to 40 first, then on to 45.',
+                    text: 'In + mode, choose each number by its place on the grid: tap 38, then tap 7 (or slide to it). 38 + 7 jumps to 40 first, then on to 45.',
                     target: () => frameEl(),
                     hold: 2000,
                     run: async (t) => {
@@ -8050,10 +9255,11 @@
                         await sleep(400); if (t !== tok) return;
                         addSub.resetAll();
                         await sleep(500); if (t !== tok) return;
+                        if (addSub.setWay) addSub.setWay('take');
                         addSub.tap(38);
                         await sleep(900); if (t !== tok) return;
-                        addSub.tap(45);
-                        await sleep(700); if (t !== tok) return;
+                        addSub.tap(7);
+                        await sleep(1300); if (t !== tok) return;
                         await addSub.count('tens');
                     }
                 },
@@ -8069,10 +9275,11 @@
                         await sleep(400); if (t !== tok) return;
                         addSub.resetAll();
                         await sleep(500); if (t !== tok) return;
+                        if (addSub.setWay) addSub.setWay('take');
                         addSub.tap(32);
                         await sleep(900); if (t !== tok) return;
-                        addSub.tap(25);
-                        await sleep(700); if (t !== tok) return;
+                        addSub.tap(7);
+                        await sleep(1300); if (t !== tok) return;
                         await addSub.count('tens');
                     }
                 },
@@ -8422,6 +9629,7 @@
                 addSub.score = addSub.loadNum('mathgrid_as_score');
                 addSub.maxLevel = addSub.loadNum('mathgrid_as_max_level');
                 addSub.updateQuizPanel();
+                if (addSub.reloadForPlayer) addSub.reloadForPlayer();
                 if (window.mgLines) window.mgLines.reloadForPlayer();
                 if (window.mgCount) window.mgCount.reloadForPlayer();
                 if (window.mgExt) window.mgExt.reloadForPlayer();
@@ -8656,8 +9864,8 @@
                 out.ext12 = cnt(e => e.m === 'ext' && e.a === 12);
                 out.count = { howmany: cnt(e => e.m === 'count' && e.k === 'howmany' && !e.fill), next: cnt(e => e.m === 'count' && e.k === 'next' && !e.fill),
                     rows: cnt(e => e.m === 'count' && e.fill === 'rows'), cols: cnt(e => e.m === 'count' && e.fill === 'cols') };
-                out.bond = { ten: cnt(e => e.m === 'bond' && e.k === 'ten'), five: cnt(e => e.m === 'bond' && e.k === 'five'),
-                    fiveplus: cnt(e => e.m === 'bond' && e.k === 'fiveplus'), rect: cnt(e => e.m === 'bond' && e.k === 'rect') };
+                out.bond = { ten: cnt(e => e.m === 'bond' && e.k === 'ten'), tens: cnt(e => e.m === 'bond' && e.k === 'tens'), five: cnt(e => e.m === 'bond' && e.k === 'five'),
+                    fiveplus: cnt(e => e.m === 'bond' && e.k === 'fiveplus'), rect: cnt(e => e.m === 'bond' && e.k === 'rect'), dbl: cnt(e => e.m === 'bond' && e.k === 'dbl') };
                 // most missed & slowest, by question
                 const byQ = {};
                 ev.forEach(e => {
@@ -8791,8 +9999,8 @@
                         h += `<div class="rp-section"><h4>Counting</h4><p class="rp-hint">Counting quiz: reading how many balls, and continuing a count.</p><div class="rp-bars">${barRow('How many?', cc.howmany[0], cc.howmany[1])}${barRow('What next?', cc.next[0], cc.next[1])}${cc.rows[1] ? barRow('Rows of 10', cc.rows[0], cc.rows[1]) : ''}${cc.cols[1] ? barRow('Columns of 10', cc.cols[0], cc.cols[1]) : ''}</div></div>`;
                     }
                     const b = r.bond;
-                    if (b.ten[1] || b.five[1] || b.fiveplus[1] || b.rect[1]) {
-                        h += `<div class="rp-section"><h4>Lines (number bonds)</h4><p class="rp-hint">Quick look quiz: seeing one side of a line and knowing the other.</p><div class="rp-bars">${barRow('Line of 10', b.ten[0], b.ten[1])}${barRow('Line of 5', b.five[0], b.five[1])}${barRow('Line of 5+', b.fiveplus[0], b.fiveplus[1])}${barRow('Rectangles', b.rect[0], b.rect[1])}</div></div>`;
+                    if (b.ten[1] || b.tens[1] || b.five[1] || b.fiveplus[1] || b.rect[1] || (b.dbl && b.dbl[1])) {
+                        h += `<div class="rp-section"><h4>Lines (number bonds)</h4><p class="rp-hint">Quick look quiz: seeing one side of a line and knowing the other.</p><div class="rp-bars">${barRow('1-10', b.ten[0], b.ten[1])}${barRow('10x', b.tens[0], b.tens[1])}${barRow('1-5', b.five[0], b.five[1])}${barRow('5-10', b.fiveplus[0], b.fiveplus[1])}${b.dbl ? barRow('Doubles', b.dbl[0], b.dbl[1]) : ''}${barRow('Rectangles', b.rect[0], b.rect[1])}</div></div>`;
                     }
 
                     h += `<div class="rp-section"><h4>Adding &amp; taking away</h4><p class="rp-hint">Quiz level ${asLevel}${asLevel <= 3 ? ` (${TIERS[Math.min(asLevel, 3)].toLowerCase()})` : ''}, score ${asScore}.</p>
@@ -8973,6 +10181,7 @@
             const wantAddSub = () => {
                 const s = addSub;
                 if (s.counting || s.quizActive || s.stage !== 'done' || !s.b || s.onesBtn.disabled) return [];
+                if ((s.diffOn && s.diffOn()) || (s.tensOn && s.tensOn())) return [];   // these have their own steps
                 const grid = s.grid || $('asGrid');
                 const a = s.a, b = s.b, fwd = s.op === '+';
                 let pts = null;
@@ -9063,6 +10272,11 @@
             };
             setInterval(tick, 250);
             tick();
+            // Adding & taking away: the Quiz Me panel stays out of the way until a quiz is on
+            const asPanel = document.querySelector('#addSubApp .mastery-panel');
+            const asPanelTick = () => { if (asPanel) asPanel.classList.toggle('as-hidden', !addSub.quizActive); };
+            setInterval(asPanelTick, 250);
+            asPanelTick();
         }
 
         // Expert level for the × / ÷ quiz: unlocked once all 100 facts are
@@ -9174,10 +10388,10 @@
             const lnSub = document.querySelector('#linesApp .ln-sub');
             const ln = footerFor('lnBoard');
             if (lnSub) { Array.from(lnSub.children).forEach(ch => ln.appendChild(ch)); lnSub.style.display = 'none'; }
-            // Adding / taking away: jump style
+            // Adding / taking away: the way to work it out (the jump styles stay in the panel below)
             const as = footerFor('asGrid');
-            const jumpsPill = document.querySelector('[data-jumps]') && document.querySelector('[data-jumps]').parentElement;
-            if (jumpsPill) { const wrap = jumpsPill.parentElement; as.appendChild(jumpsPill); if (wrap) wrap.style.display = 'none'; }
+            const modePill = document.querySelector('[data-subway]') && document.querySelector('[data-subway]').parentElement;
+            if (modePill) { const wrap = modePill.parentElement; as.appendChild(modePill); if (wrap) wrap.style.display = 'none'; }
             // × and ÷ share a grid: tables range (×) and remainders (÷)
             const md = footerFor('mathGrid');
             const ext = $('extBar');
@@ -9579,4 +10793,5 @@
     </script>
 </body>
 </html>
+
 </body></html>
